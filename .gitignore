@@ -1,0 +1,11 @@
+/.gradle
+/.gradle
+/.gradle
+/.gradle/buildOutputCleanup
+*.lock
+/.idea
+/fabric/build
+/fabric/.gradle
+/common/build
+/forge/.gradle
+/.gradle/8.12.1
