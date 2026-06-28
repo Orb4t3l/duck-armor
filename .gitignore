@@ -9,3 +9,8 @@
 /common/build
 /forge/.gradle
 /.gradle/8.12.1
+/forge/build
+/common/run
+/fabric/run
+/forge/run
+/common/.gradle
