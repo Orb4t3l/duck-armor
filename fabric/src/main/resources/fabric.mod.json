@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "id": "duckarmor",
+  "version": "${version}",
+  "name": "Duck Armor",
+  "description": "",
+  "authors": [
+    ""
+  ],
+  "contact": {
+    "homepage": ""
+  },
+  "license": "All-Rights-Reserved",
+  "icon": "assets/duckarmor/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.orbital.duckarmor.fabric.DuckarmorFabric"
+    ],
+    "client": [
+      "com.orbital.duckarmor.fabric.client.DuckarmorFabricClient"
+    ]
+  },
+  "mixins": [
+    "duckarmor.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.19.3",
+    "minecraft": "~1.20.1",
+    "java": ">=17",
+    "architectury": ">=9.2.14",
+    "fabric-api": "*"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}
