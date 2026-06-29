@@ -25,6 +25,14 @@ dependencies {
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
 }
 
+tasks.named("processResources") {
+    inputs.property "mod_version", rootProject.mod_version
+
+    filesMatching("META-INF/mods.toml") {
+        expand "version": rootProject.mod_version
+    }
+}
+
 tasks.named("shadowJar", com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar) {
     exclude "fabric.mod.json"
     exclude "architectury.common.json"
