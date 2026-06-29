@@ -12,6 +12,7 @@ public class DuckarmorCommon {
         ModItems.init();
         ModCreativeTabs.init();
         Services.registerGameEvents();
+        Services.populateCreativeTab();
     }
 
     public static void clientInit() {

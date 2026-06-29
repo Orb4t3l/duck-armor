@@ -1,8 +1,6 @@
 package com.orbital.duckarmor.platform;
 
 import dev.architectury.injectables.annotations.ExpectPlatform;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 
 public class Services {
 
@@ -12,8 +10,12 @@ public class Services {
     }
 
     @ExpectPlatform
-    @Environment(EnvType.CLIENT)
     public static void registerClientEvents() {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static void populateCreativeTab() {
         throw new AssertionError();
     }
 }
