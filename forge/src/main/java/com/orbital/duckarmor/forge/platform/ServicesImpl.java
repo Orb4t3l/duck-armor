@@ -1,4 +1,4 @@
-package com.orbital.duckarmor.platform;
+package com.orbital.duckarmor.forge.platform;
 
 import com.orbital.duckarmor.forge.events.ForgeEvents;
 import com.orbital.duckarmor.init.ModCreativeTabs;

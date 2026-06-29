@@ -1,22 +1,24 @@
 package com.orbital.duckarmor.platform;
 
-import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.world.entity.LivingEntity;
 
 public class EntityDataHelper {
 
-    @ExpectPlatform
+    private static EntityDataProvider provider;
+
+    public static void register(EntityDataProvider p) {
+        provider = p;
+    }
+
     public static boolean getBoolean(LivingEntity entity, String key) {
-        throw new AssertionError();
+        return provider.getBoolean(entity, key);
     }
 
-    @ExpectPlatform
     public static void putBoolean(LivingEntity entity, String key, boolean value) {
-        throw new AssertionError();
+        provider.putBoolean(entity, key, value);
     }
 
-    @ExpectPlatform
     public static void remove(LivingEntity entity, String key) {
-        throw new AssertionError();
+        provider.remove(entity, key);
     }
 }

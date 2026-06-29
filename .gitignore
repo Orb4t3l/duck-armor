@@ -16,3 +16,7 @@
 /common/.gradle
 *.hprof
 /.gradle
+*.lock
+*.lock
+.gradle/buildOutputCleanup/buildOutputCleanup.lock
+/.gradle/buildOutputCleanup
