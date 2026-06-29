@@ -25,6 +25,6 @@ public class ModItems {
                     new Item.Properties().stacksTo(1)));
 
     public static void init() {
-        ITEMS.register();
+        // Registration handled by platform-specific code
     }
 }

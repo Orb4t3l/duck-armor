@@ -1,4 +1,4 @@
-package com.orbital.duckarmor.platform;
+package com.orbital.duckarmor.fabric.platform;
 
 import com.orbital.duckarmor.fabric.data.DuckarmorEntityData;
 import net.minecraft.world.entity.LivingEntity;

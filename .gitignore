@@ -20,3 +20,4 @@
 *.lock
 .gradle/buildOutputCleanup/buildOutputCleanup.lock
 /.gradle/buildOutputCleanup
+.gradle/buildOutputCleanup/buildOutputCleanup.lock
