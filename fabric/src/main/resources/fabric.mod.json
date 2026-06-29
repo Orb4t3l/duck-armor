@@ -3,23 +3,21 @@
   "id": "duckarmor",
   "version": "1.0.0",
   "name": "Duck Armor",
-  "description": "Allows you to put armor on ducks and geese! (requires Untitled Duck Mod)",
+  "description": "Allows you to put armor on ducks and geese!",
   "authors": ["Orbital"],
   "license": "All Rights Reserved",
   "environment": "*",
   "entrypoints": {
-    "main":   ["com.orbital.duckarmor.fabric.DuckArmorFabric"],
-    "client": ["com.orbital.duckarmor.fabric.client.DuckArmorFabricClient"]
+    "main":   ["com.orbital.duckarmor.fabric.DuckarmorFabric"],
+    "client": ["com.orbital.duckarmor.fabric.client.DuckarmorFabricClient"]
   },
-  "mixins": [
-    "duckarmor.mixins.json"
-  ],
+  "mixins": ["duckarmor.mixins.json"],
   "depends": {
-    "fabricloader":  ">=0.15.11",
-    "fabric-api":    "*",
-    "minecraft":     "~1.20.1",
-    "architectury":  ">=9.0.0",
-    "geckolib":      "*",
+    "fabricloader": ">=0.15.11",
+    "fabric-api": "*",
+    "minecraft": "~1.20.1",
+    "architectury": ">=9.0.0",
+    "geckolib": "*",
     "untitledduckmod": "*"
   }
 }
