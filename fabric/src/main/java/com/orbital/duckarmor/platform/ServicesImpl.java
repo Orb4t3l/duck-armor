@@ -22,9 +22,11 @@ public class ServicesImpl {
     }
 
     public static void populateCreativeTab() {
-        ItemGroupEvents.modifyEntriesEvent(ModCreativeTabs.DUCK_ARMOR_TAB).register(entries -> {
-            entries.accept(ModItems.DUCK_ARMOR.get());
-            entries.accept(ModItems.GOOSE_ARMOR.get());
+        ItemGroupEvents.MODIFY_ENTRIES_ALL.register((tab, entries) -> {
+            if (tab == ModCreativeTabs.DUCK_ARMOR_TAB) {
+                entries.accept(ModItems.DUCK_ARMOR.get());
+                entries.accept(ModItems.GOOSE_ARMOR.get());
+            }
         });
     }
 }
