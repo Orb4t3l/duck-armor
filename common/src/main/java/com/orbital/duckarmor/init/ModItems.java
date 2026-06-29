@@ -9,10 +9,8 @@ import net.minecraft.world.item.Item;
 
 public class ModItems {
 
-
     public static final DeferredRegister<Item> ITEMS =
             DeferredRegister.create(DuckarmorCommon.MODID, Registries.ITEM);
-
 
     public static final RegistrySupplier<DuckArmorItem> DUCK_ARMOR = ITEMS.register("duck_armor",
             () -> new DuckArmorItem(

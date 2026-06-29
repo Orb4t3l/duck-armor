@@ -13,7 +13,6 @@ import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
 import software.bernie.geckolib.renderer.layer.GeoRenderLayer;
 
-
 public class DuckArmorLayer<T extends LivingEntity & GeoAnimatable> extends GeoRenderLayer<T> {
 
     private final DuckArmorGeoModel<T> armorModel = new DuckArmorGeoModel<>();
@@ -25,14 +24,13 @@ public class DuckArmorLayer<T extends LivingEntity & GeoAnimatable> extends GeoR
     @Override
     public void render(PoseStack poseStack, T entity, BakedGeoModel bakedModel,
                        RenderType renderType, MultiBufferSource bufferSource,
-                       VertexConsumer buffer, float partialTick,
-                       int packedLight, int packedOverlay) {
+                       VertexConsumer buffer, float partialTick, int packedLight, int packedOverlay) {
 
         if (!DuckArmorItem.hasDuckArmor(entity)) return;
 
-        ResourceLocation texture      = armorModel.getTextureResource(entity);
-        RenderType       armorRT      = RenderType.entityCutoutNoCull(texture);
-        BakedGeoModel    armorBaked   = armorModel.getBakedModel(armorModel.getModelResource(entity));
+        ResourceLocation texture = armorModel.getTextureResource(entity);
+        RenderType armorRT = RenderType.entityCutoutNoCull(texture);
+        BakedGeoModel armorBaked = armorModel.getBakedModel(armorModel.getModelResource(entity));
 
         getRenderer().reRender(armorBaked, poseStack, bufferSource, entity,
                 armorRT, bufferSource.getBuffer(armorRT),

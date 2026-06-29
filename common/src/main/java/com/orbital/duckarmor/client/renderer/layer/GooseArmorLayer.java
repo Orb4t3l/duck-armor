@@ -24,14 +24,13 @@ public class GooseArmorLayer<T extends LivingEntity & GeoAnimatable> extends Geo
     @Override
     public void render(PoseStack poseStack, T entity, BakedGeoModel bakedModel,
                        RenderType renderType, MultiBufferSource bufferSource,
-                       VertexConsumer buffer, float partialTick,
-                       int packedLight, int packedOverlay) {
+                       VertexConsumer buffer, float partialTick, int packedLight, int packedOverlay) {
 
         if (!DuckArmorItem.hasGooseArmor(entity)) return;
 
-        ResourceLocation texture    = armorModel.getTextureResource(entity);
-        RenderType       armorRT    = RenderType.entityCutoutNoCull(texture);
-        BakedGeoModel    armorBaked = armorModel.getBakedModel(armorModel.getModelResource(entity));
+        ResourceLocation texture = armorModel.getTextureResource(entity);
+        RenderType armorRT = RenderType.entityCutoutNoCull(texture);
+        BakedGeoModel armorBaked = armorModel.getBakedModel(armorModel.getModelResource(entity));
 
         getRenderer().reRender(armorBaked, poseStack, bufferSource, entity,
                 armorRT, bufferSource.getBuffer(armorRT),
