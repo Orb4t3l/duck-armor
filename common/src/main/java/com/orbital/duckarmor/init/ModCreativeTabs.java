@@ -14,6 +14,5 @@ public class ModCreativeTabs {
                 Component.translatable("itemGroup.duckarmor.duck_armor_tab"),
                 () -> new ItemStack(ModItems.DUCK_ARMOR.get())
         );
-        CreativeTabRegistry.append(DUCK_ARMOR_TAB, ModItems.DUCK_ARMOR.get(), ModItems.GOOSE_ARMOR.get());
     }
 }

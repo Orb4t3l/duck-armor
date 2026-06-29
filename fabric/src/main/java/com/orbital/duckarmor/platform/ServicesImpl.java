@@ -1,7 +1,10 @@
 package com.orbital.duckarmor.platform;
 
 import com.orbital.duckarmor.fabric.events.FabricEvents;
+import com.orbital.duckarmor.init.ModCreativeTabs;
+import com.orbital.duckarmor.init.ModItems;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.world.entity.LivingEntity;
 
 public class ServicesImpl {
@@ -16,5 +19,12 @@ public class ServicesImpl {
     }
 
     public static void registerClientEvents() {
+    }
+
+    public static void populateCreativeTab() {
+        ItemGroupEvents.modifyEntriesEvent(ModCreativeTabs.DUCK_ARMOR_TAB).register(entries -> {
+            entries.accept(ModItems.DUCK_ARMOR.get());
+            entries.accept(ModItems.GOOSE_ARMOR.get());
+        });
     }
 }
