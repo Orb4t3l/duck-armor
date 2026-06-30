@@ -24,7 +24,14 @@ subprojects {
 
     repositories {
         maven { url "https://maven.architectury.dev/" }
-        maven { url "https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/" }
+        maven {
+            name 'GeckoLib'
+            url "https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/"
+            content {
+                includeGroupByRegex "software\\.bernie.*"
+                includeGroup "com.eliotlash.mclib"
+            }
+        }
         maven {
             url "https://cursemaven.com"
             content { includeGroup "curse.maven" }
