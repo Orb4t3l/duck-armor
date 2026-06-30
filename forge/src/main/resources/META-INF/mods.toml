@@ -1,35 +1,47 @@
-modLoader = "javafml"
-loaderVersion = "[47,)"
-#issueTrackerURL = ""
-license = "All Rights Reserved"
+modLoader="javafml"
+loaderVersion="[47,)"
+license="All Rights Reserved"
 
 [[mods]]
-modId = "duckarmor"
-version = "${version}"
-displayName = "Duck Armor"
-authors = ""
-description = '''
-
-'''
-#logoFile = ""
+modId="duckarmor"
+version="1.0.0"
+displayName="Duck Armor"
+description="Allows you to put armor on ducks and geese! (requires Untitled Duck Mod)"
 
 [[dependencies.duckarmor]]
-modId = "forge"
-mandatory = true
-versionRange = "[47,)"
-ordering = "NONE"
-side = "BOTH"
+modId="forge"
+mandatory=true
+versionRange="[47.4.10,)"
+ordering="NONE"
+side="BOTH"
 
 [[dependencies.duckarmor]]
-modId = "minecraft"
-mandatory = true
-versionRange = "[1.20.1,)"
-ordering = "NONE"
-side = "BOTH"
+modId="minecraft"
+mandatory=true
+versionRange="[1.20.1,1.21)"
+ordering="NONE"
+side="BOTH"
 
 [[dependencies.duckarmor]]
-modId = "architectury"
-mandatory = true
-versionRange = "[9.2.14,)"
-ordering = "AFTER"
-side = "BOTH"
+modId="architectury"
+mandatory=true
+versionRange="*"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.duckarmor]]
+modId="geckolib"
+mandatory=true
+versionRange="*"
+ordering="NONE"
+side="BOTH"
+
+# Set back to mandatory=true once the real Untitled Duck Mod jar is added
+# as a dependency in forge/build.gradle. Left optional for now so DuckArmor
+# can load and be tested standalone (items, creative tab, etc.) without it.
+[[dependencies.duckarmor]]
+modId="untitledduckmod"
+mandatory=false
+versionRange="*"
+ordering="NONE"
+side="BOTH"

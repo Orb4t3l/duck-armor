@@ -1,5 +1,11 @@
 apply plugin: 'com.github.johnrengelman.shadow'
 
+repositories {
+    flatDir {
+        dir 'libs'
+    }
+}
+
 architectury {
     platformSetupLoomIde()
     forge()
@@ -26,7 +32,7 @@ dependencies {
     // confirmed present in runtimeClasspath.
     forgeRuntimeLibrary "com.eliotlash.mclib:mclib:20"
 
-    // modImplementation "curse.maven:untitled-duck-mod-PROJECTID:FORGE-FILEID"
+    modImplementation name: 'untitledduckmod-1.6.0-forge-1.20.1', ext: 'jar'
 
     common(project(path: ":common", configuration: "namedElements")) { transitive = false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }

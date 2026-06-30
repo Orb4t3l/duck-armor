@@ -11,6 +11,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
@@ -19,12 +20,17 @@ import net.minecraftforge.fml.loading.FMLEnvironment;
 public class DuckarmorForge {
 
     public DuckarmorForge() {
+        IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
+
         EntityDataHelper.register(new ForgeEntityDataProvider());
         DuckarmorCommon.init();
 
+        // Game events go on the FORGE bus (entity/world events)
         MinecraftForge.EVENT_BUS.addListener(ForgeEvents::onLivingHurt);
         MinecraftForge.EVENT_BUS.addListener(ForgeEvents::onPlayerInteractEntity);
-        MinecraftForge.EVENT_BUS.addListener((BuildCreativeModeTabContentsEvent event) -> {
+
+        // BuildCreativeModeTabContentsEvent fires on the MOD bus, not the FORGE bus
+        modBus.addListener((BuildCreativeModeTabContentsEvent event) -> {
             if (event.getTab() == ModCreativeTabs.DUCK_ARMOR_TAB) {
                 event.accept(new ItemStack(ModItems.DUCK_ARMOR.get()));
                 event.accept(new ItemStack(ModItems.GOOSE_ARMOR.get()));
@@ -32,8 +38,7 @@ public class DuckarmorForge {
         });
 
         if (FMLEnvironment.dist == Dist.CLIENT) {
-            FMLJavaModLoadingContext.get().getModEventBus()
-                    .addListener(ForgeClientEvents::onAddEntityRenderLayers);
+            modBus.addListener(ForgeClientEvents::onAddEntityRenderLayers);
         }
     }
 }
