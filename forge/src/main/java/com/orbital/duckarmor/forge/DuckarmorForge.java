@@ -4,9 +4,14 @@ import com.orbital.duckarmor.DuckarmorCommon;
 import com.orbital.duckarmor.forge.client.ForgeClientEvents;
 import com.orbital.duckarmor.forge.events.ForgeEvents;
 import com.orbital.duckarmor.forge.platform.ForgeEntityDataProvider;
-import com.orbital.duckarmor.init.ModCreativeTabs;
 import com.orbital.duckarmor.init.ModItems;
+import com.orbital.duckarmor.item.DuckArmorItem;
 import com.orbital.duckarmor.platform.EntityDataHelper;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -15,57 +20,61 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 
 @Mod(DuckarmorCommon.MODID)
 public class DuckarmorForge {
 
-    private static final Logger LOGGER = LogManager.getLogger(DuckarmorCommon.MODID);
+    private static final DeferredRegister<Item> ITEMS =
+            DeferredRegister.create(ForgeRegistries.ITEMS, DuckarmorCommon.MODID);
+
+    private static final DeferredRegister<CreativeModeTab> TABS =
+            DeferredRegister.create(Registries.CREATIVE_MODE_TAB, DuckarmorCommon.MODID);
+
+    private static final RegistryObject<DuckArmorItem> DUCK_ARMOR = ITEMS.register("duck_armor",
+            () -> new DuckArmorItem(DuckArmorItem.DUCK_ARMOR_NBT, DuckArmorItem.DUCK_ENTITY_ID,
+                    new Item.Properties().stacksTo(1)));
+
+    private static final RegistryObject<DuckArmorItem> GOOSE_ARMOR = ITEMS.register("goose_armor",
+            () -> new DuckArmorItem(DuckArmorItem.GOOSE_ARMOR_NBT, DuckArmorItem.GOOSE_ENTITY_ID,
+                    new Item.Properties().stacksTo(1)));
+
+    private static final RegistryObject<CreativeModeTab> TAB = TABS.register("duck_armor_tab",
+            () -> CreativeModeTab.builder()
+                    .title(Component.translatable("itemGroup.duckarmor.duck_armor_tab"))
+                    .icon(() -> new ItemStack(DUCK_ARMOR.get()))
+                    .build());
+
+    static {
+        // Set the shared ModItems suppliers so common code (DuckArmorItem.removeArmor etc.)
+        // can reference items without platform imports.
+        ModItems.DUCK_ARMOR = DUCK_ARMOR;
+        ModItems.GOOSE_ARMOR = GOOSE_ARMOR;
+    }
 
     public DuckarmorForge() {
-        LOGGER.info("DuckArmor: starting Forge init");
-
-        try {
-            EntityDataHelper.register(new ForgeEntityDataProvider());
-            LOGGER.info("DuckArmor: EntityDataHelper registered");
-        } catch (Exception e) {
-            LOGGER.error("DuckArmor: FAILED at EntityDataHelper.register", e);
-            throw e;
-        }
-
-        try {
-            ModItems.init();
-            LOGGER.info("DuckArmor: ModItems.init() done");
-        } catch (Exception e) {
-            LOGGER.error("DuckArmor: FAILED at ModItems.init()", e);
-            throw e;
-        }
-
-        try {
-            ModCreativeTabs.init();
-            LOGGER.info("DuckArmor: ModCreativeTabs.init() done");
-        } catch (Exception e) {
-            LOGGER.error("DuckArmor: FAILED at ModCreativeTabs.init()", e);
-            throw e;
-        }
-
         IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
+
+        EntityDataHelper.register(new ForgeEntityDataProvider());
+
+        ITEMS.register(modBus);
+        TABS.register(modBus);
 
         MinecraftForge.EVENT_BUS.addListener(ForgeEvents::onLivingHurt);
         MinecraftForge.EVENT_BUS.addListener(ForgeEvents::onPlayerInteractEntity);
 
         modBus.addListener((BuildCreativeModeTabContentsEvent event) -> {
-            if (event.getTab() == ModCreativeTabs.DUCK_ARMOR_TAB) {
-                event.accept(new ItemStack(ModItems.DUCK_ARMOR.get()));
-                event.accept(new ItemStack(ModItems.GOOSE_ARMOR.get()));
+            if (event.getTabKey().location().equals(
+                    new ResourceLocation(DuckarmorCommon.MODID, "duck_armor_tab"))) {
+                event.accept(DUCK_ARMOR.get());
+                event.accept(GOOSE_ARMOR.get());
             }
         });
 
         if (FMLEnvironment.dist == Dist.CLIENT) {
             modBus.addListener(ForgeClientEvents::onAddEntityRenderLayers);
         }
-
-        LOGGER.info("DuckArmor: Forge init complete");
     }
 }
