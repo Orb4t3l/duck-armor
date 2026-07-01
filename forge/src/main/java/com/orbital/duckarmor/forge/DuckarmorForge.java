@@ -16,6 +16,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -48,8 +49,6 @@ public class DuckarmorForge {
                     .build());
 
     static {
-        // Set the shared ModItems suppliers so common code (DuckArmorItem.removeArmor etc.)
-        // can reference items without platform imports.
         ModItems.DUCK_ARMOR = DUCK_ARMOR;
         ModItems.GOOSE_ARMOR = GOOSE_ARMOR;
     }
@@ -74,7 +73,8 @@ public class DuckarmorForge {
         });
 
         if (FMLEnvironment.dist == Dist.CLIENT) {
-            modBus.addListener(ForgeClientEvents::onAddEntityRenderLayers);
+            // ClientTickEvent goes on the GAME bus, not the mod bus
+            MinecraftForge.EVENT_BUS.addListener(ForgeClientEvents::onClientTick);
         }
     }
 }
