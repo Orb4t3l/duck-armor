@@ -11,13 +11,9 @@ import net.minecraft.world.entity.LivingEntity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import software.bernie.geckolib.cache.object.BakedGeoModel;
-import software.bernie.geckolib.cache.object.GeoBone;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
 import software.bernie.geckolib.renderer.layer.GeoRenderLayer;
-import software.bernie.geckolib.util.RenderUtils;
-
-import java.util.Optional;
 
 public class GooseArmorLayer<T extends LivingEntity & GeoAnimatable> extends GeoRenderLayer<T> {
 
@@ -35,35 +31,18 @@ public class GooseArmorLayer<T extends LivingEntity & GeoAnimatable> extends Geo
 
         if (!DuckArmorItem.hasGooseArmor(entity)) return;
 
-        Optional<GeoBone> mainBoneOpt = bakedModel.getBone("main");
-        if (mainBoneOpt.isEmpty()) {
-            LOGGER.warn("DuckArmor: could not find 'main' bone in goose model");
+        BakedGeoModel armorBaked = armorModel.getBakedModel(armorModel.getModelResource(entity));
+        if (armorBaked == null) {
+            LOGGER.warn("DuckArmor: goose armor geo model not found at assets/duckarmor/geo/goose_armor.geo.json");
             return;
         }
-
-        GeoBone mainBone = mainBoneOpt.get();
 
         ResourceLocation texture = armorModel.getTextureResource(entity);
         RenderType armorRT = RenderType.entityCutoutNoCull(texture);
-
-        BakedGeoModel armorBaked = armorModel.getBakedModel(armorModel.getModelResource(entity));
-        if (armorBaked == null) {
-            LOGGER.warn("DuckArmor: goose armor geo model not loaded");
-            return;
-        }
-
-        poseStack.pushPose();
-
-        RenderUtils.translateToPivotPoint(poseStack, mainBone);
-        RenderUtils.rotateMatrixAroundBone(poseStack, mainBone);
-        RenderUtils.scaleMatrixForBone(poseStack, mainBone);
-        RenderUtils.translateAwayFromPivotPoint(poseStack, mainBone);
 
         getRenderer().reRender(armorBaked, poseStack, bufferSource, entity,
                 armorRT, bufferSource.getBuffer(armorRT),
                 partialTick, packedLight, packedOverlay,
                 1f, 1f, 1f, 1f);
-
-        poseStack.popPose();
     }
 }

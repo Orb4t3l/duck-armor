@@ -3,6 +3,7 @@ package com.orbital.duckarmor.forge;
 import com.orbital.duckarmor.DuckarmorCommon;
 import com.orbital.duckarmor.forge.client.ForgeClientEvents;
 import com.orbital.duckarmor.forge.events.ForgeEvents;
+import com.orbital.duckarmor.forge.network.ModNetwork;
 import com.orbital.duckarmor.forge.platform.ForgeEntityDataProvider;
 import com.orbital.duckarmor.init.ModItems;
 import com.orbital.duckarmor.item.DuckArmorItem;
@@ -16,7 +17,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
-import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -49,7 +49,7 @@ public class DuckarmorForge {
                     .build());
 
     static {
-        ModItems.DUCK_ARMOR = DUCK_ARMOR;
+        ModItems.DUCK_ARMOR  = DUCK_ARMOR;
         ModItems.GOOSE_ARMOR = GOOSE_ARMOR;
     }
 
@@ -57,6 +57,11 @@ public class DuckarmorForge {
         IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         EntityDataHelper.register(new ForgeEntityDataProvider());
+
+        ModNetwork.register();
+
+        // Wire up the sync callback so armor state is pushed to tracking clients
+        DuckArmorItem.syncCallback = ModNetwork::sendArmorUpdate;
 
         ITEMS.register(modBus);
         TABS.register(modBus);
@@ -73,7 +78,6 @@ public class DuckarmorForge {
         });
 
         if (FMLEnvironment.dist == Dist.CLIENT) {
-            // ClientTickEvent goes on the GAME bus, not the mod bus
             MinecraftForge.EVENT_BUS.addListener(ForgeClientEvents::onClientTick);
         }
     }
