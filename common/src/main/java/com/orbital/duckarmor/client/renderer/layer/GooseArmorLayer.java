@@ -7,17 +7,16 @@ import com.orbital.duckarmor.item.DuckArmorItem;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import software.bernie.geckolib.cache.object.BakedGeoModel;
+import software.bernie.geckolib.cache.object.GeoBone;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
 import software.bernie.geckolib.renderer.layer.GeoRenderLayer;
 
 public class GooseArmorLayer<T extends LivingEntity & GeoAnimatable> extends GeoRenderLayer<T> {
 
-    private static final Logger LOGGER = LogManager.getLogger("duckarmor");
     private final GooseArmorGeoModel<T> armorModel = new GooseArmorGeoModel<>();
 
     public GooseArmorLayer(GeoEntityRenderer<T> renderer) {
@@ -32,10 +31,21 @@ public class GooseArmorLayer<T extends LivingEntity & GeoAnimatable> extends Geo
         if (!DuckArmorItem.hasGooseArmor(entity)) return;
 
         BakedGeoModel armorBaked = armorModel.getBakedModel(armorModel.getModelResource(entity));
-        if (armorBaked == null) {
-            LOGGER.warn("DuckArmor: goose armor geo model not found at assets/duckarmor/geo/goose_armor.geo.json");
-            return;
-        }
+        if (armorBaked == null) return;
+
+        bakedModel.topLevelBones().forEach(bone -> copyTransformsRecursive(bone, armorBaked));
+
+        // Head-look fallback, same reasoning as DuckArmorLayer
+        armorBaked.getBone("head").ifPresent(headBone -> {
+            float bodyYaw = entity.yBodyRot;
+            float headYaw = entity.getYHeadRot();
+            float pitch = entity.getXRot();
+
+            float yawDelta = Mth.wrapDegrees(headYaw - bodyYaw);
+
+            headBone.setRotY(-yawDelta * Mth.DEG_TO_RAD);
+            headBone.setRotX(pitch * Mth.DEG_TO_RAD);
+        });
 
         ResourceLocation texture = armorModel.getTextureResource(entity);
         RenderType armorRT = RenderType.entityCutoutNoCull(texture);
@@ -44,5 +54,20 @@ public class GooseArmorLayer<T extends LivingEntity & GeoAnimatable> extends Geo
                 armorRT, bufferSource.getBuffer(armorRT),
                 partialTick, packedLight, packedOverlay,
                 1f, 1f, 1f, 1f);
+    }
+
+    private static void copyTransformsRecursive(GeoBone from, BakedGeoModel target) {
+        target.getBone(from.getName()).ifPresent(to -> {
+            to.setRotX(from.getRotX());
+            to.setRotY(from.getRotY());
+            to.setRotZ(from.getRotZ());
+            to.setPosX(from.getPosX());
+            to.setPosY(from.getPosY());
+            to.setPosZ(from.getPosZ());
+            to.setScaleX(from.getScaleX());
+            to.setScaleY(from.getScaleY());
+            to.setScaleZ(from.getScaleZ());
+        });
+        from.getChildBones().forEach(child -> copyTransformsRecursive(child, target));
     }
 }

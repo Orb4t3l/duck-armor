@@ -7,6 +7,7 @@ import com.orbital.duckarmor.item.DuckArmorItem;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import software.bernie.geckolib.cache.object.BakedGeoModel;
 import software.bernie.geckolib.cache.object.GeoBone;
@@ -32,10 +33,23 @@ public class DuckArmorLayer<T extends LivingEntity & GeoAnimatable> extends GeoR
         BakedGeoModel armorBaked = armorModel.getBakedModel(armorModel.getModelResource(entity));
         if (armorBaked == null) return;
 
-        // Walk every bone in the duck's live model and copy its current
-        // animation transforms into any bone with the same name in the armor model.
-        // Bones that have no counterpart in the armor are simply skipped.
+        // Copy body-level animation (bob, sway, walk cycle) by matching bone names
         bakedModel.topLevelBones().forEach(bone -> copyTransformsRecursive(bone, armorBaked));
+
+        // Head-look rotation is often applied by the entity's own renderer directly
+        // via yHeadRot/xRot rather than stored on the bone object, so name-copying
+        // above can miss it entirely. Apply it explicitly here as a fallback —
+        // this works regardless of how the source mod implements head tracking.
+        armorBaked.getBone("head").ifPresent(headBone -> {
+            float bodyYaw = entity.yBodyRot;
+            float headYaw = entity.getYHeadRot();
+            float pitch = entity.getXRot();
+
+            float yawDelta = Mth.wrapDegrees(headYaw - bodyYaw);
+
+            headBone.setRotY(-yawDelta * Mth.DEG_TO_RAD);
+            headBone.setRotX(pitch * Mth.DEG_TO_RAD);
+        });
 
         ResourceLocation texture = armorModel.getTextureResource(entity);
         RenderType armorRT = RenderType.entityCutoutNoCull(texture);
