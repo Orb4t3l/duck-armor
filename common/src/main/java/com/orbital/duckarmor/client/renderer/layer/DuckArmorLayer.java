@@ -8,16 +8,14 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import software.bernie.geckolib.cache.object.BakedGeoModel;
+import software.bernie.geckolib.cache.object.GeoBone;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
 import software.bernie.geckolib.renderer.layer.GeoRenderLayer;
 
 public class DuckArmorLayer<T extends LivingEntity & GeoAnimatable> extends GeoRenderLayer<T> {
 
-    private static final Logger LOGGER = LogManager.getLogger("duckarmor");
     private final DuckArmorGeoModel<T> armorModel = new DuckArmorGeoModel<>();
 
     public DuckArmorLayer(GeoEntityRenderer<T> renderer) {
@@ -32,10 +30,12 @@ public class DuckArmorLayer<T extends LivingEntity & GeoAnimatable> extends GeoR
         if (!DuckArmorItem.hasDuckArmor(entity)) return;
 
         BakedGeoModel armorBaked = armorModel.getBakedModel(armorModel.getModelResource(entity));
-        if (armorBaked == null) {
-            LOGGER.warn("DuckArmor: duck armor geo model not found at assets/duckarmor/geo/duck_armor.geo.json");
-            return;
-        }
+        if (armorBaked == null) return;
+
+        // Walk every bone in the duck's live model and copy its current
+        // animation transforms into any bone with the same name in the armor model.
+        // Bones that have no counterpart in the armor are simply skipped.
+        bakedModel.topLevelBones().forEach(bone -> copyTransformsRecursive(bone, armorBaked));
 
         ResourceLocation texture = armorModel.getTextureResource(entity);
         RenderType armorRT = RenderType.entityCutoutNoCull(texture);
@@ -44,5 +44,20 @@ public class DuckArmorLayer<T extends LivingEntity & GeoAnimatable> extends GeoR
                 armorRT, bufferSource.getBuffer(armorRT),
                 partialTick, packedLight, packedOverlay,
                 1f, 1f, 1f, 1f);
+    }
+
+    private static void copyTransformsRecursive(GeoBone from, BakedGeoModel target) {
+        target.getBone(from.getName()).ifPresent(to -> {
+            to.setRotX(from.getRotX());
+            to.setRotY(from.getRotY());
+            to.setRotZ(from.getRotZ());
+            to.setPosX(from.getPosX());
+            to.setPosY(from.getPosY());
+            to.setPosZ(from.getPosZ());
+            to.setScaleX(from.getScaleX());
+            to.setScaleY(from.getScaleY());
+            to.setScaleZ(from.getScaleZ());
+        });
+        from.getChildBones().forEach(child -> copyTransformsRecursive(child, target));
     }
 }
