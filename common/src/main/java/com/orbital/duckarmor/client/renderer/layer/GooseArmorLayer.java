@@ -35,16 +35,15 @@ public class GooseArmorLayer<T extends LivingEntity & GeoAnimatable> extends Geo
 
         bakedModel.topLevelBones().forEach(bone -> copyTransformsRecursive(bone, armorBaked));
 
-        // Head-look fallback, same reasoning as DuckArmorLayer
         armorBaked.getBone("head").ifPresent(headBone -> {
-            float bodyYaw = entity.yBodyRot;
-            float headYaw = entity.getYHeadRot();
-            float pitch = entity.getXRot();
+            float headYaw = entity.getViewYRot(partialTick);
+            float bodyYaw = Mth.rotLerp(partialTick, entity.yBodyRotO, entity.yBodyRot);
+            float pitch = entity.getViewXRot(partialTick);
 
             float yawDelta = Mth.wrapDegrees(headYaw - bodyYaw);
 
             headBone.setRotY(-yawDelta * Mth.DEG_TO_RAD);
-            headBone.setRotX(pitch * Mth.DEG_TO_RAD);
+            headBone.setRotX(-pitch * Mth.DEG_TO_RAD);
         });
 
         ResourceLocation texture = armorModel.getTextureResource(entity);

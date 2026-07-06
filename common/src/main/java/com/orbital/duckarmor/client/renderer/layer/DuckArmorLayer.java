@@ -33,22 +33,21 @@ public class DuckArmorLayer<T extends LivingEntity & GeoAnimatable> extends GeoR
         BakedGeoModel armorBaked = armorModel.getBakedModel(armorModel.getModelResource(entity));
         if (armorBaked == null) return;
 
-        // Copy body-level animation (bob, sway, walk cycle) by matching bone names
         bakedModel.topLevelBones().forEach(bone -> copyTransformsRecursive(bone, armorBaked));
 
-        // Head-look rotation is often applied by the entity's own renderer directly
-        // via yHeadRot/xRot rather than stored on the bone object, so name-copying
-        // above can miss it entirely. Apply it explicitly here as a fallback —
-        // this works regardless of how the source mod implements head tracking.
         armorBaked.getBone("head").ifPresent(headBone -> {
-            float bodyYaw = entity.yBodyRot;
-            float headYaw = entity.getYHeadRot();
-            float pitch = entity.getXRot();
+            // Use interpolated view rotation, not the raw instant fields, so the
+            // head doesn't visibly snap/jitter between tick updates at high framerate.
+            float headYaw = entity.getViewYRot(partialTick);
+            float bodyYaw = Mth.rotLerp(partialTick, entity.yBodyRotO, entity.yBodyRot);
+            float pitch = entity.getViewXRot(partialTick);
 
             float yawDelta = Mth.wrapDegrees(headYaw - bodyYaw);
 
             headBone.setRotY(-yawDelta * Mth.DEG_TO_RAD);
-            headBone.setRotX(pitch * Mth.DEG_TO_RAD);
+            // Pitch was inverted: looking up (negative pitch) should rotate the
+            // bone the opposite way from looking down, hence the extra negation.
+            headBone.setRotX(-pitch * Mth.DEG_TO_RAD);
         });
 
         ResourceLocation texture = armorModel.getTextureResource(entity);
