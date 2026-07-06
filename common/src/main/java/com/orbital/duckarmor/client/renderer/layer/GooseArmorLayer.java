@@ -36,9 +36,9 @@ public class GooseArmorLayer<T extends LivingEntity & GeoAnimatable> extends Geo
         bakedModel.topLevelBones().forEach(bone -> copyTransformsRecursive(bone, armorBaked));
 
         armorBaked.getBone("head").ifPresent(headBone -> {
-            float headYaw = entity.getViewYRot(partialTick);
-            float bodyYaw = Mth.rotLerp(partialTick, entity.yBodyRotO, entity.yBodyRot);
-            float pitch = entity.getViewXRot(partialTick);
+            float headYaw = entity.getYHeadRot();
+            float bodyYaw = entity.yBodyRot;
+            float pitch = entity.getXRot();
 
             float yawDelta = Mth.wrapDegrees(headYaw - bodyYaw);
 

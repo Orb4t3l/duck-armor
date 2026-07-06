@@ -36,17 +36,13 @@ public class DuckArmorLayer<T extends LivingEntity & GeoAnimatable> extends GeoR
         bakedModel.topLevelBones().forEach(bone -> copyTransformsRecursive(bone, armorBaked));
 
         armorBaked.getBone("head").ifPresent(headBone -> {
-            // Use interpolated view rotation, not the raw instant fields, so the
-            // head doesn't visibly snap/jitter between tick updates at high framerate.
-            float headYaw = entity.getViewYRot(partialTick);
-            float bodyYaw = Mth.rotLerp(partialTick, entity.yBodyRotO, entity.yBodyRot);
-            float pitch = entity.getViewXRot(partialTick);
+            float headYaw = entity.getYHeadRot();
+            float bodyYaw = entity.yBodyRot;
+            float pitch = entity.getXRot();
 
             float yawDelta = Mth.wrapDegrees(headYaw - bodyYaw);
 
             headBone.setRotY(-yawDelta * Mth.DEG_TO_RAD);
-            // Pitch was inverted: looking up (negative pitch) should rotate the
-            // bone the opposite way from looking down, hence the extra negation.
             headBone.setRotX(-pitch * Mth.DEG_TO_RAD);
         });
 
