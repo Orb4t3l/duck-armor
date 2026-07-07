@@ -11,7 +11,9 @@
     "main":   ["com.orbital.duckarmor.fabric.DuckarmorFabric"],
     "client": ["com.orbital.duckarmor.fabric.client.DuckarmorFabricClient"]
   },
-  "mixins": ["duckarmor.mixins.json"],
+  "mixins": [
+    "duckarmor.mixins.json"
+  ],
   "depends": {
     "fabricloader": ">=0.15.11",
     "fabric-api": "*",

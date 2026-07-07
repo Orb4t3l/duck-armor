@@ -9,6 +9,8 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import software.bernie.geckolib.cache.object.BakedGeoModel;
 import software.bernie.geckolib.cache.object.GeoBone;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
@@ -17,7 +19,9 @@ import software.bernie.geckolib.renderer.layer.GeoRenderLayer;
 
 public class DuckArmorLayer<T extends LivingEntity & GeoAnimatable> extends GeoRenderLayer<T> {
 
+    private static final Logger LOGGER = LogManager.getLogger("duckarmor");
     private final DuckArmorGeoModel<T> armorModel = new DuckArmorGeoModel<>();
+    private static int tickCounter = 0;
 
     public DuckArmorLayer(GeoEntityRenderer<T> renderer) {
         super(renderer);
@@ -28,10 +32,20 @@ public class DuckArmorLayer<T extends LivingEntity & GeoAnimatable> extends GeoR
                        RenderType renderType, MultiBufferSource bufferSource,
                        VertexConsumer buffer, float partialTick, int packedLight, int packedOverlay) {
 
-        if (!DuckArmorItem.hasDuckArmor(entity)) return;
+        boolean hasArmor = DuckArmorItem.hasDuckArmor(entity);
+
+        // Log every ~60 frames so we can see the flag's state without spamming the log
+        if (tickCounter++ % 60 == 0) {
+            LOGGER.info("DuckArmor: render() called, hasDuckArmor = {}", hasArmor);
+        }
+
+        if (!hasArmor) return;
 
         BakedGeoModel armorBaked = armorModel.getBakedModel(armorModel.getModelResource(entity));
-        if (armorBaked == null) return;
+        if (armorBaked == null) {
+            LOGGER.error("DuckArmor: armorBaked model is NULL — geo file failed to load");
+            return;
+        }
 
         bakedModel.topLevelBones().forEach(bone -> copyTransformsRecursive(bone, armorBaked));
 

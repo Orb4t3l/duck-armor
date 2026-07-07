@@ -9,24 +9,20 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
 
-/**
- * Fabric API's LivingEntityFeatureRendererRegistrationCallback only accepts
- * vanilla LivingEntityRenderer<T, ? extends EntityModel<T>> — GeckoLib's
- * GeoEntityRenderer doesn't fit that hierarchy at all, so that callback can
- * never work here. Instead we mirror the Forge approach: wait for a real
- * duck/goose to exist in the world, grab its actual renderer instance via
- * the entity render dispatcher, and add our layer directly.
- */
 @SuppressWarnings({"unchecked", "rawtypes"})
 public class DuckarmorFabricClient implements ClientModInitializer {
 
+    private static final Logger LOGGER = LogManager.getLogger("duckarmor");
     private static boolean duckLayerAdded = false;
     private static boolean gooseLayerAdded = false;
 
     @Override
     public void onInitializeClient() {
+        LOGGER.info("DuckArmor: onInitializeClient fired, registering tick listener");
         ClientTickEvents.END_CLIENT_TICK.register(this::onClientTick);
     }
 
@@ -40,18 +36,28 @@ public class DuckarmorFabricClient implements ClientModInitializer {
             ResourceLocation id = BuiltInRegistries.ENTITY_TYPE.getKey(living.getType());
 
             if (!duckLayerAdded && DuckArmorItem.DUCK_ENTITY_ID.equals(id)) {
+                LOGGER.info("DuckArmor: found duck entity, checking renderer");
                 var renderer = mc.getEntityRenderDispatcher().getRenderer(living);
+                LOGGER.info("DuckArmor: duck renderer class = {}", renderer.getClass().getName());
                 if (renderer instanceof GeoEntityRenderer geo) {
                     geo.addRenderLayer(new DuckArmorLayer<>(geo));
                     duckLayerAdded = true;
+                    LOGGER.info("DuckArmor: duck armor layer added successfully");
+                } else {
+                    LOGGER.error("DuckArmor: duck renderer is NOT a GeoEntityRenderer");
                 }
             }
 
             if (!gooseLayerAdded && DuckArmorItem.GOOSE_ENTITY_ID.equals(id)) {
+                LOGGER.info("DuckArmor: found goose entity, checking renderer");
                 var renderer = mc.getEntityRenderDispatcher().getRenderer(living);
+                LOGGER.info("DuckArmor: goose renderer class = {}", renderer.getClass().getName());
                 if (renderer instanceof GeoEntityRenderer geo) {
                     geo.addRenderLayer(new GooseArmorLayer<>(geo));
                     gooseLayerAdded = true;
+                    LOGGER.info("DuckArmor: goose armor layer added successfully");
+                } else {
+                    LOGGER.error("DuckArmor: goose renderer is NOT a GeoEntityRenderer");
                 }
             }
 
