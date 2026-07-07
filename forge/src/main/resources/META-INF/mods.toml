@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[48,)"
+loaderVersion="[49,)"
 license="All Rights Reserved"
 
 [[mods]]
@@ -11,14 +11,14 @@ description="Allows you to put armor on ducks and geese! (requires Untitled Duck
 [[dependencies.duckarmor]]
 modId="forge"
 mandatory=true
-versionRange="[48,)"
+versionRange="[49,)"
 ordering="NONE"
 side="BOTH"
 
 [[dependencies.duckarmor]]
 modId="minecraft"
 mandatory=true
-versionRange="[1.20.2,1.21)"
+versionRange="[1.20.6,1.21)"
 ordering="NONE"
 side="BOTH"
 

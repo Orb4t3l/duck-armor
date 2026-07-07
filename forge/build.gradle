@@ -23,7 +23,7 @@ dependencies {
     forge "net.minecraftforge:forge:${rootProject.forge_version}"
 
     modImplementation "dev.architectury:architectury-forge:${rootProject.architectury_api_version}"
-    modImplementation "software.bernie.geckolib:geckolib-forge-1.20.2:${rootProject.geckolib_version}"
+    modImplementation "software.bernie.geckolib:geckolib-forge-1.20.6:${rootProject.geckolib_version}"
 
     // forgeRuntimeLibrary puts a plain (non-mod) library onto FML's actual
     // launch classpath. "implementation" alone resolves the dependency at the
