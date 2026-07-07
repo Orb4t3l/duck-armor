@@ -4,7 +4,7 @@ architectury {
 
 dependencies {
     modImplementation "dev.architectury:architectury:${rootProject.architectury_api_version}"
-    modCompileOnly "software.bernie.geckolib:geckolib-fabric-1.20.1:${rootProject.geckolib_version}"
+    modCompileOnly "software.bernie.geckolib:geckolib-fabric-${rootProject.minecraft_version}:${rootProject.geckolib_version}"
 
     // Untitled Duck Mod — use the Fabric jar for common compilation
     // modCompileOnly "curse.maven:untitled-duck-mod-PROJECTID:FABRIC-FILEID"
