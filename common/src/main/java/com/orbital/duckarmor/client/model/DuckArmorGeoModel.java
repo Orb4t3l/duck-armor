@@ -3,7 +3,7 @@ package com.orbital.duckarmor.client.model;
 import com.orbital.duckarmor.DuckarmorCommon;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
-import software.bernie.geckolib.core.animatable.GeoAnimatable;
+import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.model.GeoModel;
 
 public class DuckArmorGeoModel<T extends LivingEntity & GeoAnimatable> extends GeoModel<T> {

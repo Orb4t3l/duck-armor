@@ -25,7 +25,7 @@ subprojects {
     repositories {
         maven { url "https://maven.architectury.dev/" }
         maven {
-            name 'GeckoLib'
+            name = 'GeckoLib'
             url "https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/"
             content {
                 includeGroupByRegex "software\\.bernie.*"

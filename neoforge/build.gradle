@@ -17,8 +17,8 @@ configurations {
 dependencies {
     neoForge "net.neoforged:neoforge:${rootProject.neoforge_version}"
 
-    modImplementation "dev.architectury:architectury-neoforge:${rootProject.architectury_api_version}"
-    modImplementation "software.bernie.geckolib:geckolib-neoforge-${rootProject.minecraft_version}:${rootProject.geckolib_version}"
+    modImplementation "curse.maven:architectury-api-419699:5553775"
+    modImplementation "curse.maven:geckolib-388172:5419281"
 
     // modImplementation "curse.maven:untitled-duck-mod-PROJECTID:NEOFORGE-FILEID"
 

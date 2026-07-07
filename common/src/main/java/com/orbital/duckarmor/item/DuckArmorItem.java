@@ -68,7 +68,7 @@ public class DuckArmorItem extends Item {
             EntityDataHelper.putBoolean(target, nbtKey, true);
             LOGGER.info("DuckArmor: readback check immediately after write = {}",
                     EntityDataHelper.getBoolean(target, nbtKey));
-            target.playSound(SoundEvents.ARMOR_EQUIP_IRON, 1.0f, 1.0f);
+            target.playSound(SoundEvents.ARMOR_EQUIP_IRON.value(), 1.0f, 1.0f);
             if (!player.isCreative()) stack.shrink(1);
             if (syncCallback != null) syncCallback.sync(target, nbtKey, true);
         }
@@ -85,7 +85,7 @@ public class DuckArmorItem extends Item {
 
     public static void removeArmor(LivingEntity entity, String nbtKey, Player shearer) {
         EntityDataHelper.remove(entity, nbtKey);
-        entity.playSound(SoundEvents.ARMOR_EQUIP_IRON, 1.0f, 0.5f);
+        entity.playSound(SoundEvents.ARMOR_EQUIP_IRON.value(), 1.0f, 0.5f);
         if (!entity.level().isClientSide()) {
             Item drop = nbtKey.equals(DUCK_ARMOR_NBT) ? ModItems.DUCK_ARMOR.get() : ModItems.GOOSE_ARMOR.get();
             entity.spawnAtLocation(new ItemStack(drop));
