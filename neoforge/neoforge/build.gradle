@@ -11,7 +11,6 @@ configurations {
     compileClasspath.extendsFrom common
     runtimeClasspath.extendsFrom common
     developmentNeoForge.extendsFrom common
-    neoForge
 }
 
 dependencies {
@@ -20,10 +19,19 @@ dependencies {
     modImplementation "dev.architectury:architectury-neoforge:${rootProject.architectury_api_version}"
     modImplementation "software.bernie.geckolib:geckolib-neoforge-1.20.1:${rootProject.geckolib_version}"
 
+    forgeRuntimeLibrary "com.eliotlash.mclib:mclib:20"
+
     // modImplementation "curse.maven:untitled-duck-mod-PROJECTID:NEOFORGE-FILEID"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive = false }
     shadowCommon(project(path: ":common", configuration: "transformProductionNeoForge")) { transitive = false }
+}
+
+tasks.named("processResources") {
+    inputs.property "mod_version", rootProject.mod_version
+    filesMatching("META-INF/mods.toml") {
+        expand "version": rootProject.mod_version
+    }
 }
 
 tasks.named("shadowJar", com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar) {

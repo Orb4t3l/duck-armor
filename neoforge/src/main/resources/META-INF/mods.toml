@@ -1,38 +1,44 @@
 modLoader="javafml"
 loaderVersion="[47,)"
 license="All Rights Reserved"
+
 [[mods]]
 modId="duckarmor"
 version="1.0.0"
 displayName="Duck Armor"
 description="Allows you to put armor on ducks and geese!"
+
 [[dependencies.duckarmor]]
-    modId="forge"
-    mandatory=true
-    versionRange="[47,)"
-    ordering="NONE"
-    side="BOTH"
+modId="forge"
+mandatory=true
+versionRange="[47,)"
+ordering="NONE"
+side="BOTH"
+
 [[dependencies.duckarmor]]
-    modId="minecraft"
-    mandatory=true
-    versionRange="[1.20.1,1.21)"
-    ordering="NONE"
-    side="BOTH"
+modId="minecraft"
+mandatory=true
+versionRange="[1.20.1,1.21)"
+ordering="NONE"
+side="BOTH"
+
 [[dependencies.duckarmor]]
-    modId="architectury"
-    mandatory=true
-    versionRange="*"
-    ordering="NONE"
-    side="BOTH"
+modId="architectury"
+mandatory=true
+versionRange="*"
+ordering="NONE"
+side="BOTH"
+
 [[dependencies.duckarmor]]
-    modId="geckolib"
-    mandatory=true
-    versionRange="*"
-    ordering="NONE"
-    side="BOTH"
+modId="geckolib"
+mandatory=true
+versionRange="*"
+ordering="NONE"
+side="BOTH"
+
 [[dependencies.duckarmor]]
-    modId="untitledduckmod"
-    mandatory=true
-    versionRange="*"
-    ordering="NONE"
-    side="BOTH"
+modId="untitledduckmod"
+mandatory=false
+versionRange="*"
+ordering="NONE"
+side="BOTH"
