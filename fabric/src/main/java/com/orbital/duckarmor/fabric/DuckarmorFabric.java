@@ -3,17 +3,22 @@ package com.orbital.duckarmor.fabric;
 import com.orbital.duckarmor.DuckarmorCommon;
 import com.orbital.duckarmor.fabric.data.FabricEntityDataProvider;
 import com.orbital.duckarmor.fabric.events.FabricEvents;
+import com.orbital.duckarmor.init.ModCreativeTabs;
 import com.orbital.duckarmor.init.ModItems;
 import com.orbital.duckarmor.item.DuckArmorItem;
 import com.orbital.duckarmor.platform.EntityDataHelper;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
+import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
 public class DuckarmorFabric implements ModInitializer {
 
@@ -36,18 +41,27 @@ public class DuckarmorFabric implements ModInitializer {
         ModItems.DUCK_ARMOR = () -> duckArmor;
         ModItems.GOOSE_ARMOR = () -> gooseArmor;
 
+        // Actually create and register a real CreativeModeTab — this was
+        // missing entirely before, which is why nothing ever showed up.
+        CreativeModeTab tab = FabricItemGroup.builder()
+                .title(Component.translatable("itemGroup.duckarmor.duck_armor_tab"))
+                .icon(() -> new ItemStack(duckArmor))
+                .displayItems((params, output) -> {
+                    output.accept(duckArmor);
+                    output.accept(gooseArmor);
+                })
+                .build();
+
+        Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB,
+                new ResourceLocation(DuckarmorCommon.MODID, "duck_armor_tab"), tab);
+
+        ModCreativeTabs.DUCK_ARMOR_TAB = tab;
+
         UseEntityCallback.EVENT.register((player, world, hand, entity, hitResult) -> {
             if (entity instanceof LivingEntity living) {
                 return FabricEvents.onShearEntity(player, living);
             }
             return net.minecraft.world.InteractionResult.PASS;
-        });
-
-        ItemGroupEvents.MODIFY_ENTRIES_ALL.register((tab, entries) -> {
-            if (tab.getDisplayName().getString().equals("Duck Armor")) {
-                entries.accept(duckArmor);
-                entries.accept(gooseArmor);
-            }
         });
     }
 }
