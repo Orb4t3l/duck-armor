@@ -3,6 +3,7 @@ package com.orbital.duckarmor.fabric;
 import com.orbital.duckarmor.DuckarmorCommon;
 import com.orbital.duckarmor.fabric.data.FabricEntityDataProvider;
 import com.orbital.duckarmor.fabric.events.FabricEvents;
+import com.orbital.duckarmor.fabric.network.FabricArmorSync;
 import com.orbital.duckarmor.init.ModCreativeTabs;
 import com.orbital.duckarmor.init.ModItems;
 import com.orbital.duckarmor.item.DuckArmorItem;
@@ -10,7 +11,6 @@ import com.orbital.duckarmor.platform.EntityDataHelper;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
-import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
@@ -25,6 +25,10 @@ public class DuckarmorFabric implements ModInitializer {
     @Override
     public void onInitialize() {
         EntityDataHelper.register(new FabricEntityDataProvider());
+
+        // Push armor state to tracking clients whenever it changes server-side —
+        // without this, the client's separate entity instance never learns about it.
+        DuckArmorItem.syncCallback = FabricArmorSync::sendUpdate;
 
         DuckArmorItem duckArmor = new DuckArmorItem(
                 DuckArmorItem.DUCK_ARMOR_NBT, DuckArmorItem.DUCK_ENTITY_ID,
@@ -41,8 +45,6 @@ public class DuckarmorFabric implements ModInitializer {
         ModItems.DUCK_ARMOR = () -> duckArmor;
         ModItems.GOOSE_ARMOR = () -> gooseArmor;
 
-        // Actually create and register a real CreativeModeTab — this was
-        // missing entirely before, which is why nothing ever showed up.
         CreativeModeTab tab = FabricItemGroup.builder()
                 .title(Component.translatable("itemGroup.duckarmor.duck_armor_tab"))
                 .icon(() -> new ItemStack(duckArmor))

@@ -12,23 +12,22 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class DuckArmorItem extends Item {
 
-    public static final String DUCK_ARMOR_NBT  = "duckarmor:duck_armor";
+    private static final Logger LOGGER = LogManager.getLogger("duckarmor");
+
+    public static final String DUCK_ARMOR_NBT = "duckarmor:duck_armor";
     public static final String GOOSE_ARMOR_NBT = "duckarmor:goose_armor";
 
-    public static final int DUCK_ARMOR_POINTS  = 8;
+    public static final int DUCK_ARMOR_POINTS = 8;
     public static final int GOOSE_ARMOR_POINTS = 11;
 
-    public static final ResourceLocation DUCK_ENTITY_ID  = new ResourceLocation("untitledduckmod", "duck");
+    public static final ResourceLocation DUCK_ENTITY_ID = new ResourceLocation("untitledduckmod", "duck");
     public static final ResourceLocation GOOSE_ENTITY_ID = new ResourceLocation("untitledduckmod", "goose");
 
-    /**
-     * Platforms set this callback to sync armor state to clients via a network packet.
-     * Called server-side only, after armor is applied or removed.
-     * Parameters: entity, nbtKey, true=applied / false=removed
-     */
     public static ArmorSyncCallback syncCallback;
 
     public interface ArmorSyncCallback {
@@ -46,14 +45,29 @@ public class DuckArmorItem extends Item {
 
     @Override
     public InteractionResult interactLivingEntity(ItemStack stack, Player player,
-                                                   LivingEntity target, InteractionHand hand) {
+                                                  LivingEntity target, InteractionHand hand) {
         ResourceLocation id = BuiltInRegistries.ENTITY_TYPE.getKey(target.getType());
-        if (!targetEntityId.equals(id))            return InteractionResult.PASS;
-        if (target.isBaby())                       return InteractionResult.PASS;
-        if (EntityDataHelper.getBoolean(target, nbtKey)) return InteractionResult.PASS;
+        LOGGER.info("DuckArmor: interactLivingEntity called, target id = {}, expected = {}, clientSide = {}",
+                id, targetEntityId, target.level().isClientSide());
+
+        if (!targetEntityId.equals(id)) {
+            LOGGER.info("DuckArmor: entity id mismatch, passing");
+            return InteractionResult.PASS;
+        }
+        if (target.isBaby()) {
+            LOGGER.info("DuckArmor: target is baby, passing");
+            return InteractionResult.PASS;
+        }
+        if (EntityDataHelper.getBoolean(target, nbtKey)) {
+            LOGGER.info("DuckArmor: target already has armor, passing");
+            return InteractionResult.PASS;
+        }
 
         if (!target.level().isClientSide()) {
+            LOGGER.info("DuckArmor: writing NBT flag on server side");
             EntityDataHelper.putBoolean(target, nbtKey, true);
+            LOGGER.info("DuckArmor: readback check immediately after write = {}",
+                    EntityDataHelper.getBoolean(target, nbtKey));
             target.playSound(SoundEvents.ARMOR_EQUIP_IRON, 1.0f, 1.0f);
             if (!player.isCreative()) stack.shrink(1);
             if (syncCallback != null) syncCallback.sync(target, nbtKey, true);
