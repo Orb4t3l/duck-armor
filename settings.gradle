@@ -9,4 +9,4 @@ pluginManagement {
 }
 
 rootProject.name = "duck-armor"
-include("common", "forge", "fabric")
+include("common", "fabric", "neoforge")
