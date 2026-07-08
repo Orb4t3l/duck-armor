@@ -26,8 +26,9 @@ public class DuckarmorFabric implements ModInitializer {
     public void onInitialize() {
         EntityDataHelper.register(new FabricEntityDataProvider());
 
-        // Push armor state to tracking clients whenever it changes server-side —
-        // without this, the client's separate entity instance never learns about it.
+        // Must be registered on both physical sides — this runs on both
+        // the client (integrated server + client) and dedicated server.
+        FabricArmorSync.registerPayloadType();
         DuckArmorItem.syncCallback = FabricArmorSync::sendUpdate;
 
         DuckArmorItem duckArmor = new DuckArmorItem(

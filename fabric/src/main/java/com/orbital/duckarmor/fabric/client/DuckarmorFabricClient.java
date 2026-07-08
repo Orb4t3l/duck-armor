@@ -2,6 +2,7 @@ package com.orbital.duckarmor.fabric.client;
 
 import com.orbital.duckarmor.client.renderer.layer.DuckArmorLayer;
 import com.orbital.duckarmor.client.renderer.layer.GooseArmorLayer;
+import com.orbital.duckarmor.fabric.network.ArmorSyncPayload;
 import com.orbital.duckarmor.fabric.network.FabricArmorSync;
 import com.orbital.duckarmor.item.DuckArmorItem;
 import net.fabricmc.api.ClientModInitializer;
@@ -23,10 +24,10 @@ public class DuckarmorFabricClient implements ClientModInitializer {
     public void onInitializeClient() {
         ClientTickEvents.END_CLIENT_TICK.register(this::onClientTick);
 
-        // Receive armor sync packets from the server and apply them to this
-        // client's own copy of the entity.
-        ClientPlayNetworking.registerGlobalReceiver(FabricArmorSync.CHANNEL,
-                (client, handler, buf, responseSender) -> FabricArmorSync.handleClientReceive(client, buf));
+        // New payload-based receiver registration (old ResourceLocation+handler
+        // signature was removed in 1.20.5+)
+        ClientPlayNetworking.registerGlobalReceiver(ArmorSyncPayload.TYPE,
+                FabricArmorSync::handleClientReceive);
     }
 
     private void onClientTick(Minecraft mc) {
