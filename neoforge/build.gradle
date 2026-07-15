@@ -14,12 +14,14 @@ configurations {
 }
 
 dependencies {
-    modImplementation "net.neoforged:neoforge:${rootProject.neoforge_version}"
+    neoForge "net.neoforged:neoforge:${rootProject.neoforge_version}"
 
     modImplementation "dev.architectury:architectury-neoforge:${rootProject.architectury_api_version}"
     modImplementation "software.bernie.geckolib:geckolib-neoforge-${rootProject.minecraft_version}:${rootProject.geckolib_version}"
 
     implementation "com.eliotlash.mclib:mclib:20"
+
+    modImplementation files("libs/untitledduckmod-1.6.0-neoforge-1.21.1.jar")
 
     common(project(path: ":common", configuration: "namedElements")) { transitive = false }
     shadowCommon(project(path: ":common", configuration: "transformProductionNeoForge")) { transitive = false }

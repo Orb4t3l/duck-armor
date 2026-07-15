@@ -1,28 +1,38 @@
 package com.orbital.duckarmor.neoforge.network;
 
+import com.orbital.duckarmor.DuckarmorCommon;
 import com.orbital.duckarmor.platform.EntityDataHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.neoforged.neoforge.network.NetworkEvent;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 
-import java.util.function.Supplier;
+public record ArmorSyncPacket(int entityId, String nbtKey, boolean applied) implements CustomPacketPayload {
 
-public record ArmorSyncPacket(int entityId, String nbtKey, boolean applied) {
+    public static final CustomPacketPayload.Type<ArmorSyncPacket> TYPE =
+            new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(DuckarmorCommon.MODID, "armor_sync"));
 
-    public static void encode(ArmorSyncPacket pkt, FriendlyByteBuf buf) {
-        buf.writeInt(pkt.entityId);
-        buf.writeUtf(pkt.nbtKey);
-        buf.writeBoolean(pkt.applied);
+    public static final StreamCodec<FriendlyByteBuf, ArmorSyncPacket> STREAM_CODEC = StreamCodec.composite(
+            ByteBufCodecs.INT,
+            ArmorSyncPacket::entityId,
+            ByteBufCodecs.STRING_UTF8,
+            ArmorSyncPacket::nbtKey,
+            ByteBufCodecs.BOOL,
+            ArmorSyncPacket::applied,
+            ArmorSyncPacket::new
+    );
+
+    @Override
+    public CustomPacketPayload.Type<? extends CustomPacketPayload> type() {
+        return TYPE;
     }
 
-    public static ArmorSyncPacket decode(FriendlyByteBuf buf) {
-        return new ArmorSyncPacket(buf.readInt(), buf.readUtf(), buf.readBoolean());
-    }
-
-    public static void handle(ArmorSyncPacket pkt, Supplier<NetworkEvent.Context> ctxSupplier) {
-        NetworkEvent.Context ctx = ctxSupplier.get();
+    public static void handle(ArmorSyncPacket pkt, IPayloadContext ctx) {
         ctx.enqueueWork(() -> {
             var level = Minecraft.getInstance().level;
             if (level == null) return;
@@ -34,6 +44,5 @@ public record ArmorSyncPacket(int entityId, String nbtKey, boolean applied) {
                 EntityDataHelper.remove(living, pkt.nbtKey);
             }
         });
-        ctx.setPacketHandled(true);
     }
 }
