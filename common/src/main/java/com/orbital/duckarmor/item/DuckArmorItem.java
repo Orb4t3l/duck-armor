@@ -25,8 +25,8 @@ public class DuckArmorItem extends Item {
     public static final int DUCK_ARMOR_POINTS = 8;
     public static final int GOOSE_ARMOR_POINTS = 11;
 
-    public static final ResourceLocation DUCK_ENTITY_ID = new ResourceLocation("untitledduckmod", "duck");
-    public static final ResourceLocation GOOSE_ENTITY_ID = new ResourceLocation("untitledduckmod", "goose");
+    public static final ResourceLocation DUCK_ENTITY_ID = ResourceLocation.parse("untitledduckmod:duck");
+    public static final ResourceLocation GOOSE_ENTITY_ID = ResourceLocation.parse("untitledduckmod:goose");
 
     public static ArmorSyncCallback syncCallback;
 

@@ -15,7 +15,7 @@ import net.minecraft.resources.ResourceLocation;
 public record ArmorSyncPayload(int entityId, String nbtKey, boolean applied) implements CustomPacketPayload {
 
     public static final CustomPacketPayload.Type<ArmorSyncPayload> TYPE =
-            new CustomPacketPayload.Type<>(new ResourceLocation("duckarmor", "armor_sync"));
+            new CustomPacketPayload.Type<>(ResourceLocation.parse("duckarmor:armor_sync"));
 
     public static final StreamCodec<FriendlyByteBuf, ArmorSyncPayload> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.VAR_INT, ArmorSyncPayload::entityId,

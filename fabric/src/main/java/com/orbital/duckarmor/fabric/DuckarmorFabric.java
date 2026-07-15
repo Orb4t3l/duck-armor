@@ -39,9 +39,9 @@ public class DuckarmorFabric implements ModInitializer {
                 new Item.Properties().stacksTo(1));
 
         Registry.register(BuiltInRegistries.ITEM,
-                new ResourceLocation(DuckarmorCommon.MODID, "duck_armor"), duckArmor);
+                ResourceLocation.parse(DuckarmorCommon.MODID + ":duck_armor"), duckArmor);
         Registry.register(BuiltInRegistries.ITEM,
-                new ResourceLocation(DuckarmorCommon.MODID, "goose_armor"), gooseArmor);
+                ResourceLocation.parse(DuckarmorCommon.MODID + ":goose_armor"), gooseArmor);
 
         ModItems.DUCK_ARMOR = () -> duckArmor;
         ModItems.GOOSE_ARMOR = () -> gooseArmor;
@@ -56,7 +56,7 @@ public class DuckarmorFabric implements ModInitializer {
                 .build();
 
         Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB,
-                new ResourceLocation(DuckarmorCommon.MODID, "duck_armor_tab"), tab);
+                ResourceLocation.parse(DuckarmorCommon.MODID + ":duck_armor_tab"), tab);
 
         ModCreativeTabs.DUCK_ARMOR_TAB = tab;
 

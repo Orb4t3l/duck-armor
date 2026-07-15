@@ -8,9 +8,9 @@ import software.bernie.geckolib.model.GeoModel;
 
 public class GooseArmorGeoModel<T extends LivingEntity & GeoAnimatable> extends GeoModel<T> {
 
-    private static final ResourceLocation MODEL = new ResourceLocation(DuckarmorCommon.MODID, "geo/goose_armor.geo.json");
-    private static final ResourceLocation TEXTURE = new ResourceLocation(DuckarmorCommon.MODID, "textures/entity/goose_armor.png");
-    private static final ResourceLocation ANIMATIONS = new ResourceLocation(DuckarmorCommon.MODID, "animations/goose_armor.animation.json");
+    private static final ResourceLocation MODEL = ResourceLocation.parse(DuckarmorCommon.MODID + ":geo/goose_armor.geo.json");
+    private static final ResourceLocation TEXTURE = ResourceLocation.parse(DuckarmorCommon.MODID + ":textures/entity/goose_armor.png");
+    private static final ResourceLocation ANIMATIONS = ResourceLocation.parse(DuckarmorCommon.MODID + ":animations/goose_armor.animation.json");
 
     @Override public ResourceLocation getModelResource(T a) { return MODEL; }
     @Override public ResourceLocation getTextureResource(T a) { return TEXTURE; }
