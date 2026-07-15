@@ -12,15 +12,15 @@ import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 
 public class NeoForgeEvents {
 
-    public static void onLivingDamage(LivingDamageEvent event) {
+    public static void onLivingDamage(LivingDamageEvent.Pre event) {
         LivingEntity entity = event.getEntity();
         ResourceLocation id = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType());
         if (id == null) return;
 
         if (id.equals(DuckArmorItem.DUCK_ENTITY_ID) && DuckArmorItem.hasDuckArmor(entity)) {
-            event.setAmount(DuckArmorItem.applyArmorReduction(event.getAmount(), DuckArmorItem.DUCK_ARMOR_POINTS));
+            event.setNewDamage(DuckArmorItem.applyArmorReduction(event.getNewDamage(), DuckArmorItem.DUCK_ARMOR_POINTS));
         } else if (id.equals(DuckArmorItem.GOOSE_ENTITY_ID) && DuckArmorItem.hasGooseArmor(entity)) {
-            event.setAmount(DuckArmorItem.applyArmorReduction(event.getAmount(), DuckArmorItem.GOOSE_ARMOR_POINTS));
+            event.setNewDamage(DuckArmorItem.applyArmorReduction(event.getNewDamage(), DuckArmorItem.GOOSE_ARMOR_POINTS));
         }
     }
 

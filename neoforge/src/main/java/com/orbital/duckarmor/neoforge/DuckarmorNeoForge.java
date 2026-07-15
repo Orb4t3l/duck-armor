@@ -52,9 +52,7 @@ public class DuckarmorNeoForge {
         ModItems.GOOSE_ARMOR = GOOSE_ARMOR;
     }
 
-    public DuckarmorNeoForge() {
-        IEventBus modBus = ModLoadingContext.get().getModEventBus();
-
+    public DuckarmorNeoForge(IEventBus modBus) {
         EntityDataHelper.register(new NeoForgeEntityDataProvider());
 
         modBus.addListener(ModNetwork::register);
