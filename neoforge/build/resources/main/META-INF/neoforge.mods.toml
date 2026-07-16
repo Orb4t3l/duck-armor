@@ -18,7 +18,7 @@ description="Allows you to put armor on ducks and geese!"
 [[dependencies.duckarmor]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.20.6,1.21)"
+    versionRange="[1.21,1.21.1)"
     ordering="NONE"
     side="BOTH"
 

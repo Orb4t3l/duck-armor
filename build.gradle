@@ -4,6 +4,8 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '8.1.1' apply false
 }
 
+
+
 architectury {
     minecraft = project.minecraft_version
 }

@@ -13,6 +13,12 @@ configurations {
     developmentNeoForge.extendsFrom common
 }
 
+loom {
+    mixin {
+        useLegacyMixinAp = false
+    }
+}
+
 dependencies {
     neoForge "net.neoforged:neoforge:${rootProject.neoforge_version}"
 
@@ -56,6 +62,8 @@ tasks.named("sourcesJar") {
     dependsOn commonSources
     from commonSources.archiveFile.map { zipTree(it) }
 }
+
+
 
 components.java {
     withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) { skip() }
