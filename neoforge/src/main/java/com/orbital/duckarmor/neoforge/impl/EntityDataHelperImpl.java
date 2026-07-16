@@ -1,4 +1,4 @@
-package com.orbital.duckarmor.platform;
+package com.orbital.duckarmor.neoforge.impl;
 
 import net.minecraft.world.entity.LivingEntity;
 

@@ -1,5 +1,6 @@
-package com.orbital.duckarmor.platform;
+package com.orbital.duckarmor.neoforge.impl;
 
+import com.orbital.duckarmor.platform.EntityDataProvider;
 import net.minecraft.world.entity.LivingEntity;
 
 public class NeoForgeEntityDataProvider implements EntityDataProvider {
