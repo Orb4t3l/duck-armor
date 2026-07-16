@@ -17,7 +17,6 @@ public class NeoForgeClientEvents {
     private static boolean gooseLayerAdded = false;
 
     // ClientTickEvent.Pre/Post replaced the old TickEvent.ClientTickEvent + Phase
-    // enum entirely as of 1.20.6 — Post is the equivalent of the old Phase.END.
     public static void onClientTick(ClientTickEvent.Post event) {
         if (duckLayerAdded && gooseLayerAdded) return;
 
