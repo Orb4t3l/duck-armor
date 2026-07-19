@@ -38,6 +38,7 @@ tasks.named("processResources") {
     filesMatching("META-INF/neoforge.mods.toml") {
         expand "version": rootProject.mod_version
     }
+    from project(":common").sourceSets.main.resources
 }
 
 tasks.named("shadowJar", com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar) {
