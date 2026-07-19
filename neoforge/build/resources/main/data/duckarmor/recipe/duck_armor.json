@@ -2,9 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "pattern": [
-    "III",
-    "L L",
-    "III"
+    "ILI",
+    "I I",
+    "ILI"
   ],
   "key": {
     "I": {
@@ -15,7 +15,7 @@
     }
   },
   "result": {
-    "item": "duckarmor:goose_armor",
+    "id": "duckarmor:duck_armor",
     "count": 1
   }
 }
