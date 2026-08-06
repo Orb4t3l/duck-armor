@@ -23,6 +23,8 @@ public class DuckArmorLayer<T extends LivingEntity & GeoAnimatable> extends GeoR
     private final DuckArmorGeoModel<T> armorModel = new DuckArmorGeoModel<>();
     private static int tickCounter = 0;
 
+    //TODO: fix armor just vanishing off of duck and geese
+
     public DuckArmorLayer(GeoEntityRenderer<T> renderer) {
         super(renderer);
     }
