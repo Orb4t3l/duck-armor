@@ -9,6 +9,7 @@ import com.orbital.duckarmor.init.ModItems;
 import com.orbital.duckarmor.item.DuckArmorItem;
 import com.orbital.duckarmor.platform.EntityDataHelper;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.core.Registry;
@@ -36,6 +37,12 @@ public class DuckarmorFabric implements ModInitializer {
         DuckArmorItem gooseArmor = new DuckArmorItem(
                 DuckArmorItem.GOOSE_ARMOR_NBT, DuckArmorItem.GOOSE_ENTITY_ID,
                 new Item.Properties().stacksTo(1));
+
+        ServerEntityEvents.ENTITY_LOAD.register((entity, level) -> {
+            if (entity instanceof LivingEntity living) {
+                DuckArmorItem.reapplyIfNeeded(living);
+            }
+        });
 
         Registry.register(BuiltInRegistries.ITEM,
                 new ResourceLocation(DuckarmorCommon.MODID, "duck_armor"), duckArmor);
@@ -66,4 +73,6 @@ public class DuckarmorFabric implements ModInitializer {
             return net.minecraft.world.InteractionResult.PASS;
         });
     }
+
+
 }

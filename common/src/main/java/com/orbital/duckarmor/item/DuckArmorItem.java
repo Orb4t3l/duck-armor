@@ -1,6 +1,7 @@
 package com.orbital.duckarmor.item;
 
 import com.orbital.duckarmor.init.ModItems;
+import com.orbital.duckarmor.platform.ArmorPersistenceCache;
 import com.orbital.duckarmor.platform.EntityDataHelper;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -12,12 +13,8 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class DuckArmorItem extends Item {
-
-    private static final Logger LOGGER = LogManager.getLogger("duckarmor");
 
     public static final String DUCK_ARMOR_NBT = "duckarmor:duck_armor";
     public static final String GOOSE_ARMOR_NBT = "duckarmor:goose_armor";
@@ -47,27 +44,13 @@ public class DuckArmorItem extends Item {
     public InteractionResult interactLivingEntity(ItemStack stack, Player player,
                                                   LivingEntity target, InteractionHand hand) {
         ResourceLocation id = BuiltInRegistries.ENTITY_TYPE.getKey(target.getType());
-        LOGGER.info("DuckArmor: interactLivingEntity called, target id = {}, expected = {}, clientSide = {}",
-                id, targetEntityId, target.level().isClientSide());
-
-        if (!targetEntityId.equals(id)) {
-            LOGGER.info("DuckArmor: entity id mismatch, passing");
-            return InteractionResult.PASS;
-        }
-        if (target.isBaby()) {
-            LOGGER.info("DuckArmor: target is baby, passing");
-            return InteractionResult.PASS;
-        }
-        if (EntityDataHelper.getBoolean(target, nbtKey)) {
-            LOGGER.info("DuckArmor: target already has armor, passing");
-            return InteractionResult.PASS;
-        }
+        if (!targetEntityId.equals(id)) return InteractionResult.PASS;
+        if (target.isBaby()) return InteractionResult.PASS;
+        if (EntityDataHelper.getBoolean(target, nbtKey)) return InteractionResult.PASS;
 
         if (!target.level().isClientSide()) {
-            LOGGER.info("DuckArmor: writing NBT flag on server side");
             EntityDataHelper.putBoolean(target, nbtKey, true);
-            LOGGER.info("DuckArmor: readback check immediately after write = {}",
-                    EntityDataHelper.getBoolean(target, nbtKey));
+            ArmorPersistenceCache.register(target.getUUID(), nbtKey);
             target.playSound(SoundEvents.ARMOR_EQUIP_IRON, 1.0f, 1.0f);
             if (!player.isCreative()) stack.shrink(1);
             if (syncCallback != null) syncCallback.sync(target, nbtKey, true);
@@ -85,11 +68,27 @@ public class DuckArmorItem extends Item {
 
     public static void removeArmor(LivingEntity entity, String nbtKey, Player shearer) {
         EntityDataHelper.remove(entity, nbtKey);
+        ArmorPersistenceCache.unregister(entity.getUUID(), nbtKey);
         entity.playSound(SoundEvents.ARMOR_EQUIP_IRON, 1.0f, 0.5f);
         if (!entity.level().isClientSide()) {
             Item drop = nbtKey.equals(DUCK_ARMOR_NBT) ? ModItems.DUCK_ARMOR.get() : ModItems.GOOSE_ARMOR.get();
             entity.spawnAtLocation(new ItemStack(drop));
             if (syncCallback != null) syncCallback.sync(entity, nbtKey, false);
+        }
+    }
+
+    /**
+     * Called from each platform's "entity joined level" hook. If this entity's
+     * UUID is in the persistence cache but its live persistentData/mixin flag
+     * doesn't have it (which happens after dimension-travel reconstruction),
+     * reapply the flag and re-sync it to clients.
+     */
+    public static void reapplyIfNeeded(LivingEntity entity) {
+        for (String key : ArmorPersistenceCache.getAll(entity.getUUID())) {
+            if (!EntityDataHelper.getBoolean(entity, key)) {
+                EntityDataHelper.putBoolean(entity, key, true);
+                if (syncCallback != null) syncCallback.sync(entity, key, true);
+            }
         }
     }
 

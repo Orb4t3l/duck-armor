@@ -7,6 +7,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ShearsItem;
+import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 
@@ -42,6 +43,13 @@ public class ForgeEvents {
                 DuckArmorItem.removeArmor(target, key, player);
             }
             event.setCanceled(true);
+        }
+    }
+
+    public static void onEntityJoinLevel(EntityJoinLevelEvent event) {
+        if (event.getLevel().isClientSide()) return;
+        if (event.getEntity() instanceof LivingEntity living) {
+            DuckArmorItem.reapplyIfNeeded(living);
         }
     }
 }
