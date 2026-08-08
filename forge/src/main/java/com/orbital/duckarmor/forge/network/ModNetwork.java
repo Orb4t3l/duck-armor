@@ -30,9 +30,8 @@ public class ModNetwork {
 
     public static void sendArmorUpdate(LivingEntity entity, String nbtKey, boolean applied) {
         if (!(entity.level() instanceof ServerLevel serverLevel)) return;
-        CHANNEL.send(
-                PacketDistributor.TRACKING_ENTITY.with(() -> entity),
-                new ArmorSyncPacket(entity.getId(), nbtKey, applied)
-        );
+
+        var packet = new ArmorSyncPacket(entity.getId(), nbtKey, applied);
+        CHANNEL.send(PacketDistributor.ALL.noArg(), packet);
     }
 }
