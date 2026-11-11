@@ -68,6 +68,8 @@ public class DuckarmorForge {
 
         MinecraftForge.EVENT_BUS.addListener(ForgeEvents::onLivingHurt);
         MinecraftForge.EVENT_BUS.addListener(ForgeEvents::onPlayerInteractEntity);
+        MinecraftForge.EVENT_BUS.addListener(ForgeEvents::onEntityJoinLevel);
+        MinecraftForge.EVENT_BUS.addListener(ForgeEvents::onStartTracking);
 
         modBus.addListener((BuildCreativeModeTabContentsEvent event) -> {
             if (event.getTabKey().location().equals(

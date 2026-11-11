@@ -1,5 +1,6 @@
 package com.orbital.duckarmor.forge.events;
 
+import com.orbital.duckarmor.forge.network.ModNetwork;
 import com.orbital.duckarmor.item.DuckArmorItem;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -50,6 +51,13 @@ public class ForgeEvents {
         if (event.getLevel().isClientSide()) return;
         if (event.getEntity() instanceof LivingEntity living) {
             DuckArmorItem.reapplyIfNeeded(living);
+        }
+    }
+
+    public static void onStartTracking(net.minecraftforge.event.entity.player.PlayerEvent.StartTracking event) {
+        if (event.getEntity() instanceof net.minecraft.server.level.ServerPlayer player
+                && event.getTarget() instanceof LivingEntity living) {
+            ModNetwork.syncToPlayer(player, living);
         }
     }
 }

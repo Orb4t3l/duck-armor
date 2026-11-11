@@ -10,6 +10,7 @@ import com.orbital.duckarmor.item.DuckArmorItem;
 import com.orbital.duckarmor.platform.EntityDataHelper;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.networking.v1.EntityTrackingEvents;
@@ -22,7 +23,13 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+
 public class DuckarmorFabric implements ModInitializer {
+
+    private static final Deque<Runnable> pendingSync = new ArrayDeque<>();
+    private static final Deque<Runnable> pendingSyncNext = new ArrayDeque<>();
 
     @Override
     public void onInitialize() {
@@ -45,8 +52,16 @@ public class DuckarmorFabric implements ModInitializer {
 
         EntityTrackingEvents.START_TRACKING.register((trackedEntity, player) -> {
             if (trackedEntity instanceof LivingEntity living) {
-                FabricArmorSync.syncToPlayer(player, living);
+                pendingSyncNext.add(() -> FabricArmorSync.syncToPlayer(player, living));
             }
+        });
+
+        ServerTickEvents.END_SERVER_TICK.register(server -> {
+            while (!pendingSync.isEmpty()) {
+                pendingSync.poll().run();
+            }
+            pendingSync.addAll(pendingSyncNext);
+            pendingSyncNext.clear();
         });
 
         Registry.register(BuiltInRegistries.ITEM,

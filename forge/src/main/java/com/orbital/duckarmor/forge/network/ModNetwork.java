@@ -1,6 +1,7 @@
 package com.orbital.duckarmor.forge.network;
 
 import com.orbital.duckarmor.DuckarmorCommon;
+import com.orbital.duckarmor.item.DuckArmorItem;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
@@ -33,5 +34,16 @@ public class ModNetwork {
 
         var packet = new ArmorSyncPacket(entity.getId(), nbtKey, applied);
         CHANNEL.send(PacketDistributor.ALL.noArg(), packet);
+    }
+
+    public static void syncToPlayer(net.minecraft.server.level.ServerPlayer player, LivingEntity entity) {
+        if (DuckArmorItem.hasDuckArmor(entity)) {
+            CHANNEL.send(PacketDistributor.PLAYER.with(() -> player),
+                    new ArmorSyncPacket(entity.getId(), DuckArmorItem.DUCK_ARMOR_NBT, true));
+        }
+        if (DuckArmorItem.hasGooseArmor(entity)) {
+            CHANNEL.send(PacketDistributor.PLAYER.with(() -> player),
+                    new ArmorSyncPacket(entity.getId(), DuckArmorItem.GOOSE_ARMOR_NBT, true));
+        }
     }
 }
