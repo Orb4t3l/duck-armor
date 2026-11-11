@@ -64,10 +64,8 @@ public class DuckArmorItem extends Item {
         }
 
         if (!target.level().isClientSide()) {
-            LOGGER.info("DuckArmor: writing NBT flag on server side");
             EntityDataHelper.putBoolean(target, nbtKey, true);
-            LOGGER.info("DuckArmor: readback check immediately after write = {}",
-                    EntityDataHelper.getBoolean(target, nbtKey));
+            com.orbital.duckarmor.platform.ArmorPersistenceCache.register(target.getUUID(), nbtKey);
             target.playSound(SoundEvents.ARMOR_EQUIP_IRON.value(), 1.0f, 1.0f);
             if (!player.isCreative()) stack.shrink(1);
             if (syncCallback != null) syncCallback.sync(target, nbtKey, true);
@@ -85,11 +83,21 @@ public class DuckArmorItem extends Item {
 
     public static void removeArmor(LivingEntity entity, String nbtKey, Player shearer) {
         EntityDataHelper.remove(entity, nbtKey);
+        com.orbital.duckarmor.platform.ArmorPersistenceCache.unregister(entity.getUUID(), nbtKey);
         entity.playSound(SoundEvents.ARMOR_EQUIP_IRON.value(), 1.0f, 0.5f);
         if (!entity.level().isClientSide()) {
             Item drop = nbtKey.equals(DUCK_ARMOR_NBT) ? ModItems.DUCK_ARMOR.get() : ModItems.GOOSE_ARMOR.get();
             entity.spawnAtLocation(new ItemStack(drop));
             if (syncCallback != null) syncCallback.sync(entity, nbtKey, false);
+        }
+    }
+
+    public static void reapplyIfNeeded(LivingEntity entity) {
+        for (String key : com.orbital.duckarmor.platform.ArmorPersistenceCache.getAll(entity.getUUID())) {
+            if (!EntityDataHelper.getBoolean(entity, key)) {
+                EntityDataHelper.putBoolean(entity, key, true);
+                if (syncCallback != null) syncCallback.sync(entity, key, true);
+            }
         }
     }
 

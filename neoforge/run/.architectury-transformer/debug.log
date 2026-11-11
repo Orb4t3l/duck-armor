@@ -97,25 +97,25 @@
 [Architectury Transformer DEBUG]  - C:\Users\Trevd\mc mods\Duck Armor\.gradle\loom-cache\remapped_mods\remapped\dev\architectury\architectury-neoforge-ff17b0ff\13.0.8\architectury-neoforge-ff17b0ff-13.0.8.jar
 [Architectury Transformer DEBUG]  - C:\Users\Trevd\mc mods\Duck Armor\.gradle\loom-cache\remapped_mods\remapped\software\bernie\geckolib\geckolib-neoforge-1.21.1-ff17b0ff\4.8\geckolib-neoforge-1.21.1-ff17b0ff-4.8.jar
 [Architectury Transformer DEBUG]  - C:\Users\Trevd\mc mods\Duck Armor\.gradle\loom-cache\remapped_mods\remapped\unspecified\untitledduckmod-1.6.0-neoforge-1.21.1-ff17b0ff\83dbd6f535\untitledduckmod-1.6.0-neoforge-1.21.1-ff17b0ff-83dbd6f535.jar
-[Architectury Transformer] Read classpath in 1.352 s
+[Architectury Transformer] Read classpath in 1.240 s
 [Architectury Transformer DEBUG] Closed File Systems for C:\Users\Trevd\mc mods\Duck Armor\common\build\devlibs\duckarmor-common-1.0.0-dev.jar
-[Architectury Transformer DEBUG] Transforming 6 transformer(s) from C:\Users\Trevd\mc mods\Duck Armor\common\build\devlibs\duckarmor-common-1.0.0-dev.jar to C:\Users\Trevd\AppData\Local\Temp\14855864456959870338.jar: 
+[Architectury Transformer DEBUG] Transforming 6 transformer(s) from C:\Users\Trevd\mc mods\Duck Armor\common\build\devlibs\duckarmor-common-1.0.0-dev.jar to C:\Users\Trevd\AppData\Local\Temp\4132327849480533179.jar: 
 [Architectury Transformer DEBUG]  - dev.architectury.transformer.transformers.TransformExpectPlatform@1efee8e7
 [Architectury Transformer DEBUG]  - dev.architectury.transformer.transformers.RemapInjectables@1ee807c6
 [Architectury Transformer DEBUG]  - dev.architectury.transformer.transformers.TransformPlatformOnly@76a4d6c
 [Architectury Transformer DEBUG]  - dev.architectury.transformer.transformers.TransformNeoForgeAnnotations@517cd4b
 [Architectury Transformer DEBUG]  - dev.architectury.transformer.transformers.TransformNeoForgeEnvironment@6cc7b4de
 [Architectury Transformer DEBUG]  - dev.architectury.transformer.transformers.GenerateFakeNeoForgeMod@32cf48b7
-[Architectury Transformer DEBUG] Transforming from C:\Users\Trevd\mc mods\Duck Armor\common\build\devlibs\duckarmor-common-1.0.0-dev.jar to C:\Users\Trevd\AppData\Local\Temp\14855864456959870338.jar with 6 transformer(s) on dev.architectury.transformer.handler.SimpleTransformerHandler
+[Architectury Transformer DEBUG] Transforming from C:\Users\Trevd\mc mods\Duck Armor\common\build\devlibs\duckarmor-common-1.0.0-dev.jar to C:\Users\Trevd\AppData\Local\Temp\4132327849480533179.jar with 6 transformer(s) on dev.architectury.transformer.handler.SimpleTransformerHandler
 [Architectury Transformer DEBUG] Remapping with 1 mapping provider(s):
-[Architectury Transformer DEBUG]  - dev.architectury.transformer.transformers.TransformNeoForgeEnvironment$$Lambda/0x000002488102fda8@70beb599
+[Architectury Transformer DEBUG]  - dev.architectury.transformer.transformers.TransformNeoForgeEnvironment$$Lambda/0x000002148102fda8@70beb599
 [Architectury Transformer DEBUG] Remapping Classes:
 [Architectury Transformer DEBUG] net/fabricmc/api/EnvType -> net/neoforged/api/distmarker/Dist
 [Architectury Transformer DEBUG] net/fabricmc/api/Environment -> net/neoforged/api/distmarker/OnlyIn
 [Architectury Transformer DEBUG] Found class transformer
 [Architectury Transformer DEBUG] Writing com/orbital/duckarmor/DuckarmorCommon with maxs=true frames=true
-[Architectury Transformer DEBUG] Writing com/orbital/duckarmor/client/model/GooseArmorGeoModel with maxs=true frames=true
 [Architectury Transformer DEBUG] Writing com/orbital/duckarmor/client/model/DuckArmorGeoModel with maxs=true frames=true
+[Architectury Transformer DEBUG] Writing com/orbital/duckarmor/client/model/GooseArmorGeoModel with maxs=true frames=true
 [Architectury Transformer DEBUG] Writing com/orbital/duckarmor/client/renderer/layer/DuckArmorLayer with maxs=true frames=true
 [Architectury Transformer DEBUG] Writing com/orbital/duckarmor/client/renderer/layer/GooseArmorLayer with maxs=true frames=true
 [Architectury Transformer DEBUG] Writing com/orbital/duckarmor/init/ModItems with maxs=true frames=true
@@ -123,76 +123,103 @@
 [Architectury Transformer DEBUG] Writing com/orbital/duckarmor/item/DuckArmorItem with maxs=true frames=true
 [Architectury Transformer DEBUG] Writing com/orbital/duckarmor/item/DuckArmorItem$ArmorSyncCallback with maxs=true frames=true
 [Architectury Transformer DEBUG] Writing com/orbital/duckarmor/platform/ArmorPersistenceCache with maxs=true frames=true
-[Architectury Transformer DEBUG] Writing com/orbital/duckarmor/platform/EntityDataHelper with maxs=true frames=true
 [Architectury Transformer DEBUG] Writing com/orbital/duckarmor/platform/Services with maxs=true frames=true
 [Architectury Transformer DEBUG] Writing com/orbital/duckarmor/platform/EntityDataProvider with maxs=true frames=true
-[Architectury Transformer DEBUG] Closed File Systems for C:\Users\Trevd\AppData\Local\Temp\14855864456959870338.jar
+[Architectury Transformer DEBUG] Writing com/orbital/duckarmor/platform/EntityDataHelper with maxs=true frames=true
+[Architectury Transformer DEBUG] Closed File Systems for C:\Users\Trevd\AppData\Local\Temp\4132327849480533179.jar
 [Architectury Transformer] Listening at C:\Users\Trevd\mc mods\Duck Armor\common\build\devlibs\duckarmor-common-1.0.0-dev.jar
-[Architectury Transformer DEBUG] Temporary jar [C:\Users\Trevd\AppData\Local\Temp\14855864456959870338.jar] contains packages: com.orbital.duckarmor.init, com.orbital.duckarmor.client.renderer.layer, com.orbital.duckarmor.platform, com.orbital.duckarmor, com.orbital.duckarmor.client.model, com.orbital.duckarmor.item
+[Architectury Transformer DEBUG] Temporary jar [C:\Users\Trevd\AppData\Local\Temp\4132327849480533179.jar] contains packages: com.orbital.duckarmor.init, com.orbital.duckarmor.client.renderer.layer, com.orbital.duckarmor.platform, com.orbital.duckarmor, com.orbital.duckarmor.client.model, com.orbital.duckarmor.item
 [Architectury Transformer DEBUG] Closed File Systems for C:\Users\Trevd\mc mods\Duck Armor\common\build\devlibs\duckarmor-common-1.0.0-dev.jar
 [Architectury Transformer DEBUG] Classpath entry [C:\Users\Trevd\mc mods\Duck Armor\neoforge\build\classes\java\main] contains packages: com.orbital.duckarmor.neoforge.network, com.orbital.duckarmor.neoforge, com.orbital.duckarmor.neoforge.impl, com.orbital.duckarmor.neoforge.client, com.orbital.duckarmor.neoforge.events
 [Architectury Transformer DEBUG] Classpath entry [C:\Users\Trevd\mc mods\Duck Armor\neoforge\build\resources\main] contains packages: 
 [Architectury Transformer DEBUG] Transforming from com/orbital/duckarmor/platform/EntityDataProvider.class to com/orbital/duckarmor/platform/EntityDataProvider.class with 6 transformer(s) on dev.architectury.transformer.handler.TinyRemapperPreparedTransformerHandler
 [Architectury Transformer DEBUG] Remapping with 1 mapping provider(s):
-[Architectury Transformer DEBUG]  - dev.architectury.transformer.transformers.TransformNeoForgeEnvironment$$Lambda/0x000002488102fda8@70beb599
+[Architectury Transformer DEBUG]  - dev.architectury.transformer.transformers.TransformNeoForgeEnvironment$$Lambda/0x000002148102fda8@70beb599
 [Architectury Transformer DEBUG] Remapping with Dirty Mappings...
 [Architectury Transformer DEBUG] Remapping Classes:
 [Architectury Transformer DEBUG] net/fabricmc/api/EnvType -> net/neoforged/api/distmarker/Dist
 [Architectury Transformer DEBUG] net/fabricmc/api/Environment -> net/neoforged/api/distmarker/OnlyIn
 [Architectury Transformer DEBUG] Found class transformer
 [Architectury Transformer DEBUG] Writing com/orbital/duckarmor/platform/EntityDataProvider with maxs=true frames=true
-[Architectury Transformer DEBUG] Transformed com/orbital/duckarmor/platform/EntityDataProvider in 96.59 ms
+[Architectury Transformer DEBUG] Transformed com/orbital/duckarmor/platform/EntityDataProvider in 1.913 s
 [Architectury Transformer DEBUG] Transforming from com/orbital/duckarmor/item/DuckArmorItem.class to com/orbital/duckarmor/item/DuckArmorItem.class with 6 transformer(s) on dev.architectury.transformer.handler.TinyRemapperPreparedTransformerHandler
 [Architectury Transformer DEBUG] Remapping with 1 mapping provider(s):
-[Architectury Transformer DEBUG]  - dev.architectury.transformer.transformers.TransformNeoForgeEnvironment$$Lambda/0x000002488102fda8@70beb599
+[Architectury Transformer DEBUG]  - dev.architectury.transformer.transformers.TransformNeoForgeEnvironment$$Lambda/0x000002148102fda8@70beb599
 [Architectury Transformer DEBUG] Remapping Classes:
 [Architectury Transformer DEBUG] net/fabricmc/api/EnvType -> net/neoforged/api/distmarker/Dist
 [Architectury Transformer DEBUG] net/fabricmc/api/Environment -> net/neoforged/api/distmarker/OnlyIn
 [Architectury Transformer DEBUG] Found class transformer
 [Architectury Transformer DEBUG] Writing com/orbital/duckarmor/item/DuckArmorItem with maxs=true frames=true
-[Architectury Transformer DEBUG] Transformed com/orbital/duckarmor/item/DuckArmorItem in 16.58 ms
+[Architectury Transformer DEBUG] Transformed com/orbital/duckarmor/item/DuckArmorItem in 19.59 ms
 [Architectury Transformer DEBUG] Transforming from com/orbital/duckarmor/init/ModItems.class to com/orbital/duckarmor/init/ModItems.class with 6 transformer(s) on dev.architectury.transformer.handler.TinyRemapperPreparedTransformerHandler
 [Architectury Transformer DEBUG] Remapping with 1 mapping provider(s):
-[Architectury Transformer DEBUG]  - dev.architectury.transformer.transformers.TransformNeoForgeEnvironment$$Lambda/0x000002488102fda8@70beb599
+[Architectury Transformer DEBUG]  - dev.architectury.transformer.transformers.TransformNeoForgeEnvironment$$Lambda/0x000002148102fda8@70beb599
 [Architectury Transformer DEBUG] Remapping Classes:
 [Architectury Transformer DEBUG] net/fabricmc/api/EnvType -> net/neoforged/api/distmarker/Dist
 [Architectury Transformer DEBUG] net/fabricmc/api/Environment -> net/neoforged/api/distmarker/OnlyIn
 [Architectury Transformer DEBUG] Found class transformer
 [Architectury Transformer DEBUG] Writing com/orbital/duckarmor/init/ModItems with maxs=true frames=true
-[Architectury Transformer DEBUG] Transformed com/orbital/duckarmor/init/ModItems in 19.83 ms
+[Architectury Transformer DEBUG] Transformed com/orbital/duckarmor/init/ModItems in 13.20 ms
 [Architectury Transformer DEBUG] Transforming from com/orbital/duckarmor/platform/EntityDataHelper.class to com/orbital/duckarmor/platform/EntityDataHelper.class with 6 transformer(s) on dev.architectury.transformer.handler.TinyRemapperPreparedTransformerHandler
 [Architectury Transformer DEBUG] Remapping with 1 mapping provider(s):
-[Architectury Transformer DEBUG]  - dev.architectury.transformer.transformers.TransformNeoForgeEnvironment$$Lambda/0x000002488102fda8@70beb599
+[Architectury Transformer DEBUG]  - dev.architectury.transformer.transformers.TransformNeoForgeEnvironment$$Lambda/0x000002148102fda8@70beb599
 [Architectury Transformer DEBUG] Remapping Classes:
 [Architectury Transformer DEBUG] net/fabricmc/api/EnvType -> net/neoforged/api/distmarker/Dist
 [Architectury Transformer DEBUG] net/fabricmc/api/Environment -> net/neoforged/api/distmarker/OnlyIn
 [Architectury Transformer DEBUG] Found class transformer
 [Architectury Transformer DEBUG] Writing com/orbital/duckarmor/platform/EntityDataHelper with maxs=true frames=true
-[Architectury Transformer DEBUG] Transformed com/orbital/duckarmor/platform/EntityDataHelper in 14.95 ms
+[Architectury Transformer DEBUG] Transformed com/orbital/duckarmor/platform/EntityDataHelper in 11.03 ms
 [Architectury Transformer DEBUG] Transforming from com/orbital/duckarmor/item/DuckArmorItem$ArmorSyncCallback.class to com/orbital/duckarmor/item/DuckArmorItem$ArmorSyncCallback.class with 6 transformer(s) on dev.architectury.transformer.handler.TinyRemapperPreparedTransformerHandler
 [Architectury Transformer DEBUG] Remapping with 1 mapping provider(s):
-[Architectury Transformer DEBUG]  - dev.architectury.transformer.transformers.TransformNeoForgeEnvironment$$Lambda/0x000002488102fda8@70beb599
+[Architectury Transformer DEBUG]  - dev.architectury.transformer.transformers.TransformNeoForgeEnvironment$$Lambda/0x000002148102fda8@70beb599
 [Architectury Transformer DEBUG] Remapping Classes:
 [Architectury Transformer DEBUG] net/fabricmc/api/EnvType -> net/neoforged/api/distmarker/Dist
 [Architectury Transformer DEBUG] net/fabricmc/api/Environment -> net/neoforged/api/distmarker/OnlyIn
 [Architectury Transformer DEBUG] Found class transformer
 [Architectury Transformer DEBUG] Writing com/orbital/duckarmor/item/DuckArmorItem$ArmorSyncCallback with maxs=true frames=true
-[Architectury Transformer DEBUG] Transformed com/orbital/duckarmor/item/DuckArmorItem$ArmorSyncCallback in 19.27 ms
+[Architectury Transformer DEBUG] Transformed com/orbital/duckarmor/item/DuckArmorItem$ArmorSyncCallback in 9.184 ms
 [Architectury Transformer DEBUG] Transforming from com/orbital/duckarmor/client/renderer/layer/DuckArmorLayer.class to com/orbital/duckarmor/client/renderer/layer/DuckArmorLayer.class with 6 transformer(s) on dev.architectury.transformer.handler.TinyRemapperPreparedTransformerHandler
 [Architectury Transformer DEBUG] Remapping with 1 mapping provider(s):
-[Architectury Transformer DEBUG]  - dev.architectury.transformer.transformers.TransformNeoForgeEnvironment$$Lambda/0x000002488102fda8@70beb599
+[Architectury Transformer DEBUG]  - dev.architectury.transformer.transformers.TransformNeoForgeEnvironment$$Lambda/0x000002148102fda8@70beb599
 [Architectury Transformer DEBUG] Remapping Classes:
 [Architectury Transformer DEBUG] net/fabricmc/api/EnvType -> net/neoforged/api/distmarker/Dist
 [Architectury Transformer DEBUG] net/fabricmc/api/Environment -> net/neoforged/api/distmarker/OnlyIn
 [Architectury Transformer DEBUG] Found class transformer
 [Architectury Transformer DEBUG] Writing com/orbital/duckarmor/client/renderer/layer/DuckArmorLayer with maxs=true frames=true
-[Architectury Transformer DEBUG] Transformed com/orbital/duckarmor/client/renderer/layer/DuckArmorLayer in 17.43 ms
+[Architectury Transformer DEBUG] Transformed com/orbital/duckarmor/client/renderer/layer/DuckArmorLayer in 12.55 ms
 [Architectury Transformer DEBUG] Transforming from com/orbital/duckarmor/client/renderer/layer/GooseArmorLayer.class to com/orbital/duckarmor/client/renderer/layer/GooseArmorLayer.class with 6 transformer(s) on dev.architectury.transformer.handler.TinyRemapperPreparedTransformerHandler
 [Architectury Transformer DEBUG] Remapping with 1 mapping provider(s):
-[Architectury Transformer DEBUG]  - dev.architectury.transformer.transformers.TransformNeoForgeEnvironment$$Lambda/0x000002488102fda8@70beb599
+[Architectury Transformer DEBUG]  - dev.architectury.transformer.transformers.TransformNeoForgeEnvironment$$Lambda/0x000002148102fda8@70beb599
 [Architectury Transformer DEBUG] Remapping Classes:
 [Architectury Transformer DEBUG] net/fabricmc/api/EnvType -> net/neoforged/api/distmarker/Dist
 [Architectury Transformer DEBUG] net/fabricmc/api/Environment -> net/neoforged/api/distmarker/OnlyIn
 [Architectury Transformer DEBUG] Found class transformer
 [Architectury Transformer DEBUG] Writing com/orbital/duckarmor/client/renderer/layer/GooseArmorLayer with maxs=true frames=true
-[Architectury Transformer DEBUG] Transformed com/orbital/duckarmor/client/renderer/layer/GooseArmorLayer in 21.39 ms
+[Architectury Transformer DEBUG] Transformed com/orbital/duckarmor/client/renderer/layer/GooseArmorLayer in 9.914 ms
+[Architectury Transformer DEBUG] Transforming from com/orbital/duckarmor/platform/ArmorPersistenceCache.class to com/orbital/duckarmor/platform/ArmorPersistenceCache.class with 6 transformer(s) on dev.architectury.transformer.handler.TinyRemapperPreparedTransformerHandler
+[Architectury Transformer DEBUG] Remapping with 1 mapping provider(s):
+[Architectury Transformer DEBUG]  - dev.architectury.transformer.transformers.TransformNeoForgeEnvironment$$Lambda/0x000002148102fda8@70beb599
+[Architectury Transformer DEBUG] Remapping Classes:
+[Architectury Transformer DEBUG] net/fabricmc/api/EnvType -> net/neoforged/api/distmarker/Dist
+[Architectury Transformer DEBUG] net/fabricmc/api/Environment -> net/neoforged/api/distmarker/OnlyIn
+[Architectury Transformer DEBUG] Found class transformer
+[Architectury Transformer DEBUG] Writing com/orbital/duckarmor/platform/ArmorPersistenceCache with maxs=true frames=true
+[Architectury Transformer DEBUG] Transformed com/orbital/duckarmor/platform/ArmorPersistenceCache in 8.343 ms
+[Architectury Transformer DEBUG] Transforming from com/orbital/duckarmor/client/model/DuckArmorGeoModel.class to com/orbital/duckarmor/client/model/DuckArmorGeoModel.class with 6 transformer(s) on dev.architectury.transformer.handler.TinyRemapperPreparedTransformerHandler
+[Architectury Transformer DEBUG] Remapping with 1 mapping provider(s):
+[Architectury Transformer DEBUG]  - dev.architectury.transformer.transformers.TransformNeoForgeEnvironment$$Lambda/0x000002148102fda8@70beb599
+[Architectury Transformer DEBUG] Remapping Classes:
+[Architectury Transformer DEBUG] net/fabricmc/api/EnvType -> net/neoforged/api/distmarker/Dist
+[Architectury Transformer DEBUG] net/fabricmc/api/Environment -> net/neoforged/api/distmarker/OnlyIn
+[Architectury Transformer DEBUG] Found class transformer
+[Architectury Transformer DEBUG] Writing com/orbital/duckarmor/client/model/DuckArmorGeoModel with maxs=true frames=true
+[Architectury Transformer DEBUG] Transformed com/orbital/duckarmor/client/model/DuckArmorGeoModel in 7.678 ms
+[Architectury Transformer DEBUG] Transforming from com/orbital/duckarmor/client/model/GooseArmorGeoModel.class to com/orbital/duckarmor/client/model/GooseArmorGeoModel.class with 6 transformer(s) on dev.architectury.transformer.handler.TinyRemapperPreparedTransformerHandler
+[Architectury Transformer DEBUG] Remapping with 1 mapping provider(s):
+[Architectury Transformer DEBUG]  - dev.architectury.transformer.transformers.TransformNeoForgeEnvironment$$Lambda/0x000002148102fda8@70beb599
+[Architectury Transformer DEBUG] Remapping Classes:
+[Architectury Transformer DEBUG] net/fabricmc/api/EnvType -> net/neoforged/api/distmarker/Dist
+[Architectury Transformer DEBUG] net/fabricmc/api/Environment -> net/neoforged/api/distmarker/OnlyIn
+[Architectury Transformer DEBUG] Found class transformer
+[Architectury Transformer DEBUG] Writing com/orbital/duckarmor/client/model/GooseArmorGeoModel with maxs=true frames=true
+[Architectury Transformer DEBUG] Transformed com/orbital/duckarmor/client/model/GooseArmorGeoModel in 9.144 ms

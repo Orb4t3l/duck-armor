@@ -51,7 +51,7 @@ public class GooseArmorLayer<T extends LivingEntity & GeoAnimatable> extends Geo
 
         getRenderer().reRender(armorBaked, poseStack, bufferSource, entity,
                 armorRT, bufferSource.getBuffer(armorRT),
-                partialTick, packedLight, packedOverlay, 255);
+                partialTick, packedLight, packedOverlay, 0xFFFFFFFF);
     }
 
     private static void copyTransformsRecursive(GeoBone from, BakedGeoModel target) {

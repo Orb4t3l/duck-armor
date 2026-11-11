@@ -29,6 +29,19 @@ public class DuckarmorFabric implements ModInitializer {
         // Must be registered on both physical sides — this runs on both
         // the client (integrated server + client) and dedicated server.
         FabricArmorSync.registerPayloadType();
+        net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents.ENTITY_LOAD.register((entity, level) -> {
+            if (entity instanceof LivingEntity living) {
+                DuckArmorItem.reapplyIfNeeded(living);
+            }
+        });
+
+        net.fabricmc.fabric.api.networking.v1.EntityTrackingEvents.START_TRACKING.register((trackedEntity, player) -> {
+            if (trackedEntity instanceof LivingEntity living) {
+                FabricArmorSync.queueSyncToPlayer(player, living);
+            }
+        });
+
+        net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents.END_SERVER_TICK.register(FabricArmorSync::onServerTick);
         DuckArmorItem.syncCallback = FabricArmorSync::sendUpdate;
 
         DuckArmorItem duckArmor = new DuckArmorItem(
