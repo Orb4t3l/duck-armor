@@ -62,6 +62,9 @@ public class DuckarmorNeoForge {
 
         NeoForge.EVENT_BUS.addListener(NeoForgeEvents::onLivingDamage);
         NeoForge.EVENT_BUS.addListener(NeoForgeEvents::onPlayerInteractEntity);
+        NeoForge.EVENT_BUS.addListener(NeoForgeEvents::onEntityJoinLevel);
+        NeoForge.EVENT_BUS.addListener(NeoForgeEvents::onStartTracking);
+        NeoForge.EVENT_BUS.addListener(ModNetwork::onServerTick);
 
         modBus.addListener((BuildCreativeModeTabContentsEvent event) -> {
             if (event.getTabKey().location().equals(

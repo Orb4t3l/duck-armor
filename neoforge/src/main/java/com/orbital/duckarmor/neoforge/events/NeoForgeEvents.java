@@ -1,6 +1,7 @@
 package com.orbital.duckarmor.neoforge.events;
 
 import com.orbital.duckarmor.item.DuckArmorItem;
+import com.orbital.duckarmor.neoforge.network.ModNetwork;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
@@ -42,6 +43,20 @@ public class NeoForgeEvents {
                 DuckArmorItem.removeArmor(target, key, player);
             }
             event.setCanceled(true);
+        }
+    }
+
+    public static void onEntityJoinLevel(net.neoforged.neoforge.event.entity.EntityJoinLevelEvent event) {
+        if (event.getLevel().isClientSide()) return;
+        if (event.getEntity() instanceof LivingEntity living) {
+            DuckArmorItem.reapplyIfNeeded(living);
+        }
+    }
+
+    public static void onStartTracking(net.neoforged.neoforge.event.entity.player.PlayerEvent.StartTracking event) {
+        if (event.getEntity() instanceof net.minecraft.server.level.ServerPlayer player
+                && event.getTarget() instanceof LivingEntity living) {
+            ModNetwork.queueSyncToPlayer(player, living);
         }
     }
 }
