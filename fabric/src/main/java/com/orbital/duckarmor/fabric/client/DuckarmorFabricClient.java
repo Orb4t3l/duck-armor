@@ -25,8 +25,9 @@ public class DuckarmorFabricClient implements ClientModInitializer {
 
         // Receive armor sync packets from the server and apply them to this
         // client's own copy of the entity.
-        ClientPlayNetworking.registerGlobalReceiver(FabricArmorSync.CHANNEL,
-                (client, handler, buf, responseSender) -> FabricArmorSync.handleClientReceive(client, buf));
+        ClientPlayNetworking.registerGlobalReceiver(ArmorSyncPayload.TYPE,
+                (payload, context) -> context.client().execute(() ->
+                        FabricArmorSync.handleClientReceive(context.client(), payload)));
     }
 
     private void onClientTick(Minecraft mc) {
@@ -57,4 +58,6 @@ public class DuckarmorFabricClient implements ClientModInitializer {
             if (duckLayerAdded && gooseLayerAdded) break;
         }
     }
+
+
 }

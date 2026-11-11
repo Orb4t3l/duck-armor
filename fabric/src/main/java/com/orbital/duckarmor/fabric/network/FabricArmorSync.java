@@ -1,25 +1,48 @@
 package com.orbital.duckarmor.fabric.network;
 
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.codec.ByteBufCodecs;
-import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import com.orbital.duckarmor.item.DuckArmorItem;
+import com.orbital.duckarmor.platform.EntityDataHelper;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.client.Minecraft;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.Level;
 
-public record ArmorSyncPayload(int entityId, String nbtKey, boolean applied) implements CustomPacketPayload {
+public class FabricArmorSync {
 
-    public static final CustomPacketPayload.Type<ArmorSyncPayload> TYPE =
-            new CustomPacketPayload.Type<>(new ResourceLocation("duckarmor", "armor_sync"));
+    public static void registerPayloadTypes() {
+        PayloadTypeRegistry.playS2C().register(ArmorSyncPayload.TYPE, ArmorSyncPayload.STREAM_CODEC);
+    }
 
-    public static final StreamCodec<FriendlyByteBuf, ArmorSyncPayload> STREAM_CODEC = StreamCodec.composite(
-            ByteBufCodecs.VAR_INT, ArmorSyncPayload::entityId,
-            ByteBufCodecs.STRING_UTF8, ArmorSyncPayload::nbtKey,
-            ByteBufCodecs.BOOL, ArmorSyncPayload::applied,
-            ArmorSyncPayload::new
-    );
+    public static void sendUpdate(LivingEntity entity, String nbtKey, boolean applied) {
+        Level level = entity.level();
+        if (level.isClientSide()) return;
+        ArmorSyncPayload payload = new ArmorSyncPayload(entity.getId(), nbtKey, applied);
+        for (ServerPlayer player : ((net.minecraft.server.level.ServerLevel) level).players()) {
+            ServerPlayNetworking.send(player, payload);
+        }
+    }
 
-    @Override
-    public Type<? extends CustomPacketPayload> type() {
-        return TYPE;
+    public static void syncToPlayer(ServerPlayer player, LivingEntity entity) {
+        if (DuckArmorItem.hasDuckArmor(entity)) {
+            ServerPlayNetworking.send(player,
+                    new ArmorSyncPayload(entity.getId(), DuckArmorItem.DUCK_ARMOR_NBT, true));
+        }
+        if (DuckArmorItem.hasGooseArmor(entity)) {
+            ServerPlayNetworking.send(player,
+                    new ArmorSyncPayload(entity.getId(), DuckArmorItem.GOOSE_ARMOR_NBT, true));
+        }
+    }
+
+    public static void handleClientReceive(Minecraft client, ArmorSyncPayload payload) {
+        if (client.level == null) return;
+        Entity entity = client.level.getEntity(payload.entityId());
+        if (!(entity instanceof LivingEntity living)) return;
+        if (payload.applied()) {
+            EntityDataHelper.putBoolean(living, payload.nbtKey(), true);
+        } else {
+            EntityDataHelper.remove(living, payload.nbtKey());
+        }
     }
 }
