@@ -12,6 +12,7 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
+import net.fabricmc.fabric.api.networking.v1.EntityTrackingEvents;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
@@ -27,8 +28,6 @@ public class DuckarmorFabric implements ModInitializer {
     public void onInitialize() {
         EntityDataHelper.register(new FabricEntityDataProvider());
 
-        // Push armor state to tracking clients whenever it changes server-side —
-        // without this, the client's separate entity instance never learns about it.
         DuckArmorItem.syncCallback = FabricArmorSync::sendUpdate;
 
         DuckArmorItem duckArmor = new DuckArmorItem(
@@ -41,6 +40,12 @@ public class DuckarmorFabric implements ModInitializer {
         ServerEntityEvents.ENTITY_LOAD.register((entity, level) -> {
             if (entity instanceof LivingEntity living) {
                 DuckArmorItem.reapplyIfNeeded(living);
+            }
+        });
+
+        EntityTrackingEvents.START_TRACKING.register((trackedEntity, player) -> {
+            if (trackedEntity instanceof LivingEntity living) {
+                FabricArmorSync.syncToPlayer(player, living);
             }
         });
 
@@ -73,6 +78,4 @@ public class DuckarmorFabric implements ModInitializer {
             return net.minecraft.world.InteractionResult.PASS;
         });
     }
-
-
 }

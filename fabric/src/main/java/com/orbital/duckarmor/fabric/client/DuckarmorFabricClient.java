@@ -23,11 +23,8 @@ public class DuckarmorFabricClient implements ClientModInitializer {
     public void onInitializeClient() {
         ClientTickEvents.END_CLIENT_TICK.register(this::onClientTick);
 
-        // Receive armor sync packets from the server and apply them to this
-        // client's own copy of the entity.
-        ClientPlayNetworking.registerGlobalReceiver(ArmorSyncPayload.TYPE,
-                (payload, context) -> context.client().execute(() ->
-                        FabricArmorSync.handleClientReceive(context.client(), payload)));
+        ClientPlayNetworking.registerGlobalReceiver(FabricArmorSync.CHANNEL,
+                (client, handler, buf, responseSender) -> FabricArmorSync.handleClientReceive(client, buf));
     }
 
     private void onClientTick(Minecraft mc) {
